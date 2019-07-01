@@ -2,6 +2,7 @@
 - http://cafe.naver.com/cppmaster  =>  수업 종료후 수업에 사용한 소스 upload 예정
 - 강석민 smkang@codenuri.co.kr
 
+## 학습할 open source
 - https://github.com/WebKit/webkit/blob/master/Source/WTF/wtf/RefCounted.h
 ```cpp
 template<typename T> class RefCounted : public RefCountedBase {
@@ -36,3 +37,32 @@ protected:
 - visual c++ 2017/2019 : basic c++14     /std:c++17
 - g++ 8.x/9.1 : basic c++14      -std=c++17
 
+
+# Day1
+
+## Casting
+- const는 syntatical한 것으로 c=10 , *p=20으로 나온다.
+```cpp
+// casting1.cpp
+
+#include <stdio.h>
+#include <iostream>
+
+int main()
+{
+    int n=5;
+    //double* q = &n; // warning in C , but error in c++
+
+    double* q = (double *) &n; // C style casting : ok. but it is dangerous.
+
+    *q = 3.4;
+
+
+    const int c=10; // this is syntactical.
+    int *p=(int*)&c;
+    *p = 20;  // so it is ok
+
+    printf("%d\n",c);
+    printf("%d\n",*p);
+}
+```
