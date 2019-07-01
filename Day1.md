@@ -248,14 +248,24 @@ public:
 -----------
 
 ## 참조 계수
-### 참조 계수 생성 규칙
 - 규칙
     - 규칙 1 . 객체 생성시 참조 계수 증가
     - 규칙 2 . 포인터 복사시 참조계수 증가
     - 규칙 3 . 더이상 필요없을때 참조계수 감소
+    
+### Prohibiting heap-based objects
+- heap은 new operatior를 사용하므로 , new operator를 protected안에 넣으면 된다.
+```cpp
+protected:
+    static void* operator new(std::size_t);
+    static void* operator new [](std::size_t);
+```
+
+### Requiring heap-based objects
 - Protectoed 소멸자 : 객체를 스택에 만들수 없게 한다.
     - 195 page 아래쪽 코드 : 객체를 heap에만 만들게 하거나 , stack에 못만들게 하는 방법
     - Car c; 와 같이 stack에서 부를때는 , 함수를 빠져나갈때 소멸자를 부르지만, protected에 선언된 소멸자는 call되지 않아서 에러가 발생한다.
+- constructor의 경우는 private/protected 모두 heap-based에서도 접근할수 없다. destructor는 단지 heapOnly delete가 가능하다. 
 - [source 3_reference2 : 195 page  ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/3_reference2.cpp)
 ```cpp
 // 3_참조계수2.cpp
@@ -280,7 +290,7 @@ protected :
     ~Car() { cout << "~Car" << endl; }
 };
 
-    Car c;      // error : 위와 같이 protected일때 에러
+    Car c;      // error : 위와 같이 protected일때 에러 (stack에 선언되므로)
 ```
 
 -----------
@@ -706,7 +716,7 @@ int main()
 
 -----------
 
-### 깊은 복사로 구현한 대입 연산자
+### 깊은 복사로 구현한 대입 연산자 : copy-and-swap
 - 자신과 대입할 경우 (s1 = s1) ```        if(&s == this) return *this;```
 - s의 복사본을 만든다. ```   String temp(s);     // RAII 기법```
     - RAII 기법: 중간에 문제가 되어도 String은 객체이므로 관련 내용은 소멸이 잘 되어 문제가 안된다.
