@@ -758,7 +758,7 @@ int main()
 
 ### 2.8.1\. 제거와 반환을 분리
 - stl은 제거와 반환을 분리  : 강력 보장을 지키기 위해서 이다.
-- STL이 제거와 반호나을 동시에 하지 않는 이유
+- STL이 제거와 반환을 동시에 하지 않는 이유
     - 1. 예외 안정성의 강력보장을 지키기 위해
     - 2. 참조 반환을 통해서 임시객체를 제거하기 위해서
 - [source 7_safe2](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/7_safe2.cpp)
@@ -860,7 +860,6 @@ int main()
 --------
 
 
-==================
 
 <a name="day2"></a>
 
