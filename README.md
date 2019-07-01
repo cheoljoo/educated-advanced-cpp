@@ -345,7 +345,7 @@ protected:
 ```
 ---------
 ### C++11 멀티쓰레드에서 안전한 타입 (atomic)
-- #include <atomic> 
+- ```#include <atomic> ```
 - fetch가 CPU lock을 쓰므로 성능적으로 더 유리하다. mutex lock은 보통 system lock을 사용하게 된다.
 - this in ```void deref() const```
     - 일반 멤버 함수에서 this : RefCountedBase* this
@@ -376,3 +376,258 @@ protected:
 };
 ```
 ------------
+### thin template
+- 클래스 템플릿이 너무 많은 타입에 대해서 인스턴스화 될때 코드가 커닐수 있다. - code bloat
+    - // code bloat를 막기 위한 기술
+- T를 사용하지 않는 멤버 함수를 템플릿이 아닌 기반 클래스를 만들어서 상속받자.!!
+- 클래스 템플릿을 만들때 템플릿 파라미터 T를 사용하지 않는 멤버 함수는  (여기서는 이게 많을수 있기에 code memory절약을 위해서) 템플릿이 아닌 기반 클래스를 만들어서 상속 받자 
+    - class RefCountedBase
+- [source 3_reference7](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/3_reference7.cpp)
+```cpp
+class RefCountedBase
+{
+protected:
+        mutable int m_refCount = 0 ;
+public:
+        void ref() const { ++m_refCount; }
+};
+
+template <typename T>
+class RefCounted : public RefCountedBase
+{
+public:
+        void deref() const      // void deref( const RefCounted* this)
+        {
+            if(--m_refCount == 0){
+                delete static_cast<T*>(
+                        const_cast<RefCounted*>(this));
+            }
+        }
+protected:
+        ~RefCounted(){}
+};
+class Car : public RefCounted<Car>
+{
+public:
+        ~Car() { std::cout << "~Car" << std::endl; }
+};
+        const Car* p1 = new Car;
+```
+------------
+### 복사되면 안되는 class (MACRO) : 참조 계수 class를 복사되지 않게 해야 한다. 
+- 이 클래스는 (또는 기반 클래스)는 복사 되면 안된다.
+    - // 컴파일러가 복사 생성자를 만들지 못하게 된다.
+    - // 아래 2개는 항상 쌍으로 다닌다.  그래서 macro를 이용한다.
+    - ```RefCounted(const RefCounted&) = delete; // c++11 함수 삭제```
+    - ```RefCounted& operator=(const RefCounted&) = delete;  // 대입도 삭제```
+- 항상 사용하는 복사 생성자 쌍을 MACRO를 사용하여 처리한다.
+- [source 3_reference8](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/3_reference8.cpp)
+```cpp
+#define WTF_MAKE_NONCOPYABLE(classname) \
+    classname(const classname&) = delete; \
+    classname& operator=(const classname&) = delete;
+template <typename T>
+class RefCounted : public RefCountedBase
+{
+    //RefCounted(const RefCounted&) = delete; // c++11 함수 삭제
+    //RefCounted& operator=(const RefCounted&) = delete;  // 대입도 삭제
+    WTF_MAKE_NONCOPYABLE(RefCounted);
+```
+------------
+### 스마트 포인터
+- 객체를 참조 계수 기반으로 관리하기로 결정했다면 raw pointer를 사용하게 하지 말자!! 스마트 포인터를 도입해야 한다.
+- 진짜 포인터처럼 -> 를 사용할수 있어야 한다.
+```cpp
+    T* operator->() { return m_obj; }
+    T& operator*() { return *m_obj; }
+```
+- [source 3_reference10](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/3_reference10.cpp)
+```cpp
+template<typename T> class AutoPtr
+{
+    T* m_obj;
+public:
+    AutoPtr(T* p=0):m_obj(p)
+    {
+        if(m_obj) m_obj->ref();
+    }
+    AutoPtr(const AutoPtr& p):m_obj(p.m_obj)
+    {
+        if(m_obj) m_obj->ref();
+    }
+    ~AutoPtr()
+    {
+        if(m_obj) m_obj->deref();
+    }
+    T* operator->() { return m_obj; }
+    T& operator*() { return *m_obj; }
+};
+
+int main()
+{
+    // 진짜 포인터처럼 AutoPtr를 사용하면 됩니다.
+    AutoPtr<Car> p1 = new Car;      // AutoPtr<Car> p1(new Car)
+    p1->Go();       // p1.operator->()의 원리 입니다.
+    AutoPtr<Car> p2 = p1;
+
+
+    // webkit에서는 AutoPtr로 참조 계수를 관리한다.
+}
+```
+------
+## thin template
+### template는 너무 많은 member 함수를 만든다.
+- 템플릿 인자와 관련 없는 모든 멤버는 기반 클래스(템플린이 아닌)로 제공한다.
+- [source 4_thinTemplate3 : 237 page](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/4_thinTemplate3.cpp)
+```cpp
+// 템플릿 인자와 관련 없는 모든 멤버는 기반 클래스(템플린이 아닌)로 제공한다.
+class VectorBase
+{
+protected:
+    int size;
+public:
+    VectorBase(int sz):size(sz){}
+    int getSize() const { return size; }
+};
+
+// 2개의 타입에 대해 vector사용 => 총 10개의 member함수가 생성됨.
+template<typename T>
+class Vector : public VectorBase
+{
+    T* buff;
+public:
+    Vector(int sz):VectorBase(sz) { buff = new T[size]; }
+    ~Vector() { delete[] buff; }
+
+    T& front() { return buff[0]; }
+    T& last(){ return buff[size-1]; }
+};
+```
+----------------
+### void를 이용하여 thin template을 더 가볍게
+- pointer에 대해서는 ```void*```를 사용하면 더 많은 member function을 Base class에 넣울수 있다.
+    - 실제로는 T 를 쓰는 것들의 크기가 크다.
+    - 이번에는 T도 VectorBase로 올려본다.
+    - void* 기반 컨테이너 and template에서는 casting만 책임진다.
+- shared_ptr와 AutoPtr 비교
+```
+    - // shared_ptr<int> sp(new int) : ok
+    - //   참조계수를 스마트 포인터가 관리
+    - //   make_shared를 이용해서 객체과 참조계수 객체를 같이 붙여서 memory fragmentation을 방지 할수 있다.
+    - //   overhead는 2배의 overhaed
+    - // AutoPtr<int> sp(new int): error
+    - //   AutoPtr<int> sp(new Car): ok
+    - //   참조 계수를 객체가 관리한다.
+```
+- android 소스에서 platform_system_core/libutils/include/Vector.h 열어보세요.  VectorImpl
+    - android에서는 Vector같은 것들 표준에 있는 것을 std를 사용하도록 권장한다.
+- [source 4_thinTemplate4 : 237 page](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/4_thinTemplate4.cpp)
+```cpp
+class VectorBase
+{
+protected:
+    int size;
+    void** buff;
+public:
+    VectorBase(int sz):size(sz)
+    {
+        buff = new void*[size];
+    }
+    ~VectorBase()
+    {
+        delete[] buff;
+    }
+    void* front() { return buff[0]; }
+    void* last() { return buff[size-1]; }
+    int getSize() const { return size; }
+};
+
+// template에서는 casting만을 하고 ( compile time)
+// 이것은 code memory가 확 줄어든다.
+template<typename T>
+class Vector : public VectorBase
+{
+    T* buff;
+public:
+    Vector(int sz):VectorBase(sz) { }
+
+    T& front() { return static_cast<T&>(buff[0]); }
+    T& last(){ return static_cast<T&>(buff[size-1]); }
+};
+```
+----------
+## this
+- this 에 대한 설명
+    - 함수가 const이면 arguments들도 모두 const가 붙어서 넘겨지게 된다. this 도 마찬가지이다.
+- [source 5_this](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/5_this1.cpp)
+```cpp
+class Point
+{
+    int x,y;
+public:
+    void set(int a, int b)      // set(Point* this,int a, int b)
+    {
+        x=a;    // this->x =a;
+        y=b;    // this->y =b;
+    }
+    void print() const  // print (const Point* this)
+    {
+        x=10;           // error : const this->x=10 이 안되기 때문이다.
+    }
+};
+
+int main()
+{
+    Point p1,p2;
+    p1.set(10,20);  // set(&p1,10,20)의 의미로 전달됩니다.
+                    // push 20
+                    // psuh 10      진짜 인자는 스택으로
+                    // mov ecx,&p1   객체 주소는 레지스터에
+                    // call Point::set
+}
+```
+----------
+## CRTP
+-  virtual로 call 하면 MyWindow::Click를 부를수 있다. 그러나, 느려지므로 virtual은 쓰지 않는 것으로 한다. 그래서 template을 대신 사용
+- android ::  libutils/include/utils/singleton.h  : CRTP를 사용하는 singleton    but , 여기서도 다른 방식 추천
+- [source 6_CRTP](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/6_CRTP1.cpp)
+```cpp
+// MS오픈소스인 WTL(Window Template Library) 라이브러리가 이벤트를 처리하는 방식
+template <typename T>
+class Window
+{
+public:
+    void msgLoop()  // msgLoop(Window* this)
+    {
+        //Click();    // this->Click()
+        static_cast<T*>(this)->Click();
+    }
+    void Click() {
+        std::cout << "Window::Click" << std::endl;  // 1
+    }
+};
+class MyWindow : public Window<MyWindow>
+{
+public:
+    void Click(){ std::cout << "MyWindow::Click" << std::endl; }  // 2
+};
+
+
+int main()
+{
+    MyWindow w;
+    w.msgLoop();    // 1을 call
+
+}
+```
+-----------
+## 예외 안정성
+- // 예외 안정성 (exception safety)
+// 1. 완전 보장 : 예외가 없다. ex) int n=0  int *p = nullptr
+// 2. 강력 보장 : 예외가 있지만 잡아서 처리하면
+//                  객체의 상태는 예외 발생 이전 상태가 된다.
+//                  계속 사용가능하다.
+// 3. 기본 보장 : 예외가 발생해도 잡으면 자원 누수는 없다.
+//                  단, 객체의 상태는 알수 없다. 이어서 사용할수 없다.
+
+### 
