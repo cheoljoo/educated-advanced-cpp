@@ -623,11 +623,103 @@ int main()
 -----------
 ## 예외 안정성
 - // 예외 안정성 (exception safety)
-// 1. 완전 보장 : 예외가 없다. ex) int n=0  int *p = nullptr
-// 2. 강력 보장 : 예외가 있지만 잡아서 처리하면
-//                  객체의 상태는 예외 발생 이전 상태가 된다.
-//                  계속 사용가능하다.
-// 3. 기본 보장 : 예외가 발생해도 잡으면 자원 누수는 없다.
-//                  단, 객체의 상태는 알수 없다. 이어서 사용할수 없다.
+    - 1. 완전 보장 : 예외가 없다. ex) int n=0  int *p = nullptr
+    - 2. 강력 보장 : 예외가 있지만 잡아서 처리하면 객체의 상태는 예외 발생 이전 상태가 된다. 계속 사용가능하다.
+    - 3. 기본 보장 : 예외가 발생해도 잡으면 자원 누수는 없다.  단, 객체의 상태는 알수 없다. 이어서 사용할수 없다.
+### 제거와 반환을 분리
+- stl은 제거와 반환을 분리  : 강력 보장을 지키기 위해서 이다.
+- STL이 제거와 반호나을 동시에 하지 않는 이유
+    - 1. 예외 안정성의 강력보장을 지키기 위해
+    - 2. 참조 반환을 통해서 임시객체를 제거하기 위해서
+- [source 7_safe2](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/7_safe2.cpp)
+```cpp
+template <typename T>
+class Stack
+{
+    T buff[10];
+    int idx=-1;
+public:
+    void push(const T& a){ buff[++idx] = a; }
 
-### 
+    // 제거와 반환을 동시에 하면 강력 보장을 지킬수 없다.
+    // 제거와 반환은 분리한다.
+    T& top() { return buff[idx]; }  // 반환만
+    void pop() { --idx; } // 제거만
+};
+
+class People {};
+
+int main()
+{
+    Stack<People> s;
+    People p;
+    s.push(p);
+    try
+    {
+        People p = s.top(); // 꺼내기만
+        s.pop(); // 제거만
+    }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
+```
+-----------
+### 깊은 복사로 구현한 대입 연산자
+- 자신과 대입할 경우 (s1 = s1) ```        if(&s == this) return *this;```
+- s의 복사본을 만든다. ```   String temp(s);     // RAII 기법```
+    - RAII 기법: 중간에 문제가 되어도 String은 객체이므로 관련 내용은 소멸이 잘 되어 문제가 안된다.
+- s의 버포와 자산의 버퍼를 교체한다.
+
+- [source 7_safe3 : 59 page ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/7_safe3.cpp)
+```cpp
+class String
+{
+    char* buff;
+public:
+    // 이것은 얕은 복사가 되어서 , s1=s2를 하면 주소만 copy되는 것이다.
+    String(const char* s)
+    {
+        buff = new char[strlen(s)+1];
+        strcpy(buff,s);
+    }
+    ~String(){ delete[] buff; }
+
+    String(const String& s)
+    {
+        buff = new char[strlen(s.buff)+1];      // 여기서 fail이 나면 그 이후는 수행을 하지 않는다. 그러나, 나는 안전한다.
+        strcpy(buff,s.buff);
+    }
+    void swap(String& s)
+    {
+        char* temp = s.buff;
+        s.buff = buff;
+        buff = temp;
+    }
+
+    // 깊은 복사로 구현한 대입 연산자
+    // ** exception safety를 아는 사람들은 대입을 해도 이렇게 짜야 한다.  **
+    String& operator=(const String& s)
+    {
+        // 자신과 대입할 경우 (s1 = s1)
+        if(&s == this) return *this;
+
+        // s의 복사본을 만든다.
+        String temp(s);     // RAII 기법 : 중간에 문제가 되어도 String은 객체이므로 관련 내용은 소멸이 잘 되어 문제가 안된다.
+        // s의 버포와 자산의 버퍼를 교체한다.
+        temp.swap(*this);
+
+        return *this;
+    }
+};
+
+int main()
+{
+    String s1 = "hello";
+    String s2 = "AAA";
+
+    s1 = s2; //  이때를 생각해 봅시다.
+}
+```
+--------
