@@ -63,4 +63,13 @@ casting4:
 6CTRP1:
 	g++ -std=c++11 6_CRTP1.cpp -o a
 	./a
-all: 6CTRP1
+7safe1:
+	g++ -std=c++11 7_safe1.cpp -o a
+	./a
+7_safe2:
+	g++ -std=c++11 7_safe2.cpp -o a
+	./a
+7_safe3:
+	g++ -std=c++11 7_safe3.cpp -o a
+	./a
+all: 7_safe3
