@@ -8,7 +8,7 @@ using namespace std;
 template <typename T>
 class myRefCountedBase
 {
-	int m_refCount = 0 ; 
+	mutable int m_refCount = 0 ; 
 public: 
 	// 상수 객체라도 수명을 관리할수 있어야 한다.
 	// 참조 계수를 조작하는 함수는 반드시 "상수 멤버함수"이어야 한다.

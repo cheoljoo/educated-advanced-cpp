@@ -1,4 +1,4 @@
-// 3_참조계수7.cpp
+/ 3_참조계수7.cpp
 //
 #include <stdio.h>
 #include <iostream>
@@ -29,7 +29,7 @@ template <typename T>
 class RefCounted : public RefCountedBase
 {
 public:
-		void deref() const      // void deref( RefCounted* this)
+		void deref() const      // void deref( const RefCounted* this)
 		{
 			// 일반 멤버 함수에서 this : RefCounted* this
 			// 상수 멤버 함수에서 this : const RefCounted* this
