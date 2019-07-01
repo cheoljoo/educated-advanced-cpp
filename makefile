@@ -30,7 +30,22 @@ casting4:
 3ref4:
 	g++ -std=c++17 3_reference4.cpp -o a
 	./a
-all: 3ref5
 3ref5:
 	g++ -std=c++17 3_reference5.cpp -o a
+	./a
+3ref6:
+	g++ -std=c++11 3_reference6.cpp -o a
+	./a
+3ref7:
+	g++ -std=c++11 3_reference7.cpp -o a
+	./a
+3ref8:
+	g++ -std=c++11 3_reference8.cpp -o a
+	./a
+3ref9:
+	g++ -std=c++11 3_reference9.cpp -o a
+	./a
+all: 3ref10
+3ref10:
+	g++ -std=c++11 3_reference10.cpp -o a
 	./a
