@@ -3,56 +3,34 @@
 2\.  [Day1](#day1)  
 2.1\.  [Casting](#casting)  
 2.1.1\.  [const는 syntatical한 것으로 c=10 , *p=20으로 나온다.](#const는syntatical한것으로c=10*p=20으로나온다.)  
-2.2\.  [```](#```)  
-2.2.1\.  [static_cast](#static_cast)  
-2.3\.  [```](#```-1)  
-2.3.1\.  [reinterpret_cast : memory 관련된 타입 캐스팅이 된다.  reference / point만 변환이 되는 것이다.](#reinterpret_cast:memory관련된타입캐스팅이된다.reference/point만변환이되는것이다.)  
-2.4\.  [```](#```-2)  
-2.4.1\.  [const_cast :](#const_cast:)  
-2.5\.  [```](#```-3)  
-2.6\.  [addressof](#addressof)  
-2.6.1\.  [내주소를 알리지 말라!  ```Point* operator&() const { return nullptr; }```](#내주소를알리지말라!```point*operator&const{returnnullptr;}```)  
-2.7\.  [```](#```-4)  
-2.7.1\.  [최대의 경우인 const volatile로 바꾸어주고(const char) -> const없애고(char) -> 그것의 주소를 얻는다.](#최대의경우인constvolatile로바꾸어주고constchar->const없애고char->그것의주소를얻는다.)  
-2.8\.  [```](#```-5)  
-2.9\.  [상수 멤버 함수](#상수멤버함수)  
-2.9.1\.  [**앞으로 const 붙이는 것을 꼭 해주세요.. 무지 중요합니다.**](#**앞으로const붙이는것을꼭해주세요..무지중요합니다.**)  
-2.10\.  [- source 2_const1](#-source2_const1)  
-2.11\.  [참조 계수](#참조계수)  
-2.11.1\.  [참조 계수 생성 규칙](#참조계수생성규칙)  
-2.12\.  [```](#```-6)  
-2.12.1\.  [파생클래스의 소멸자 호출](#파생클래스의소멸자호출)  
-2.13\.  [- source 3_reference3 : 195 page  ](#-source3_reference3:195page)  
-2.13.1\.  [virtual을 사용하지 않고 파생클래스의 소멸자 호출](#virtual을사용하지않고파생클래스의소멸자호출)  
-2.14\.  [```](#```-7)  
-2.14.1\.  [참조 계수를 조작하는 함수](#참조계수를조작하는함수)  
-2.15\.  [```](#```-8)  
-2.15.1\.  [C++11 멀티쓰레드에서 안전한 타입 (atomic)](#c++11멀티쓰레드에서안전한타입atomic)  
-2.16\.  [```](#```-9)  
-2.16.1\.  [thin template](#thintemplate)  
-2.17\.  [```](#```-10)  
-2.17.1\.  [복사되면 안되는 class (MACRO) : 참조 계수 class를 복사되지 않게 해야 한다.](#복사되면안되는classmacro:참조계수class를복사되지않게해야한다.)  
-2.18\.  [```](#```-11)  
-2.18.1\.  [스마트 포인터](#스마트포인터)  
-2.19\.  [```](#```-12)  
-2.20\.  [thin template](#thintemplate-1)  
-2.20.1\.  [template는 너무 많은 member 함수를 만든다.](#template는너무많은member함수를만든다.)  
-2.21\.  [```](#```-13)  
-2.21.1\.  [void를 이용하여 thin template을 더 가볍게](#void를이용하여thintemplate을더가볍게)  
-2.22\.  [```](#```-14)  
-2.23\.  [this](#this)  
-2.24\.  [```](#```-15)  
-2.25\.  [CRTP](#crtp)  
-2.26\.  [```](#```-16)  
-2.27\.  [예외 안정성](#예외안정성)  
-2.27.1\.  [제거와 반환을 분리](#제거와반환을분리)  
-2.28\.  [```](#```-17)  
-2.28.1\.  [깊은 복사로 구현한 대입 연산자](#깊은복사로구현한대입연산자)  
-2.29\.  [```](#```-18)  
+2.1.2\.  [static_cast](#static_cast)  
+2.1.3\.  [reinterpret_cast : memory 관련된 타입 캐스팅이 된다.  reference / point만 변환이 되는 것이다.](#reinterpret_cast:memory관련된타입캐스팅이된다.reference/point만변환이되는것이다.)  
+2.1.4\.  [const_cast :](#const_cast:)  
+2.2\.  [addressof](#addressof)  
+2.2.1\.  [내주소를 알리지 말라!  ```Point* operator&() const { return nullptr; }```](#내주소를알리지말라!```point*operator&const{returnnullptr;}```)  
+2.2.2\.  [최대의 경우인 const volatile로 바꾸어주고(const char) -> const없애고(char) -> 그것의 주소를 얻는다.](#최대의경우인constvolatile로바꾸어주고constchar->const없애고char->그것의주소를얻는다.)  
+2.3\.  [상수 멤버 함수](#상수멤버함수)  
+2.3.1\.  [**앞으로 const 붙이는 것을 꼭 해주세요.. 무지 중요합니다.**](#**앞으로const붙이는것을꼭해주세요..무지중요합니다.**)  
+2.4\.  [참조 계수](#참조계수)  
+2.4.1\.  [참조 계수 생성 규칙](#참조계수생성규칙)  
+2.4.2\.  [파생클래스의 소멸자 호출](#파생클래스의소멸자호출)  
+2.4.3\.  [virtual을 사용하지 않고 파생클래스의 소멸자 호출](#virtual을사용하지않고파생클래스의소멸자호출)  
+2.4.4\.  [참조 계수를 조작하는 함수](#참조계수를조작하는함수)  
+2.4.5\.  [C++11 멀티쓰레드에서 안전한 타입 (atomic)](#c++11멀티쓰레드에서안전한타입atomic)  
+2.4.6\.  [thin template](#thintemplate)  
+2.4.7\.  [복사되면 안되는 class (MACRO) : 참조 계수 class를 복사되지 않게 해야 한다.](#복사되면안되는classmacro:참조계수class를복사되지않게해야한다.)  
+2.4.8\.  [스마트 포인터](#스마트포인터)  
+2.5\.  [thin template](#thintemplate-1)  
+2.5.1\.  [template는 너무 많은 member 함수를 만든다.](#template는너무많은member함수를만든다.)  
+2.5.2\.  [void를 이용하여 thin template을 더 가볍게](#void를이용하여thintemplate을더가볍게)  
+2.6\.  [this](#this)  
+2.7\.  [CRTP](#crtp)  
+2.8\.  [예외 안정성](#예외안정성)  
+2.8.1\.  [제거와 반환을 분리](#제거와반환을분리)  
+2.8.2\.  [깊은 복사로 구현한 대입 연산자](#깊은복사로구현한대입연산자)  
 3\.  [Day2](#day2)  
 3.1\.  [A](#a)  
 3.1.1\.  [reinterpret_cast : memory 관련된 타입 캐스팅이 된다.  reference / point만 변환이 되는 것이다.](#reinterpret_cast:memory관련된타입캐스팅이된다.reference/point만변환이되는것이다.-1)  
-3.2\.  [```](#```-19)  
 
 <a name="educated-advanced-cpp"></a>
 
@@ -132,13 +110,13 @@ int main()
     printf("%d\n",c);
     printf("%d\n",*p);
 }
-<a name="```"></a>
+```
 
-2.2\. ```
 ----------
+
 <a name="static_cast"></a>
 
-### 2.2.1\. static_cast
+### 2.1.2\. static_cast
     - 1. 연관성이 있는 타입끼리의 캐스팅 (reference가 아니다)
     - 2. 표준 타입을 값으로 캐스팅
     - 3. void* 를 다른 타입으로 캐스팅
@@ -152,13 +130,13 @@ int main()
         int *p2 = static_cast<int*>(malloc(100));  // void* => int* : ok
         const int c=10;
         int *p3 = static_cast<int*>(&c);        // const int* => int* : error
-<a name="```-1"></a>
+```
 
-2.3\. ```
 ------------
+
 <a name="reinterpret_cast:memory관련된타입캐스팅이된다.reference/point만변환이되는것이다."></a>
 
-### 2.3.1\. reinterpret_cast : memory 관련된 타입 캐스팅이 된다.  reference / point만 변환이 되는 것이다.
+### 2.1.3\. reinterpret_cast : memory 관련된 타입 캐스팅이 된다.  reference / point만 변환이 되는 것이다.
     - 포인터 <-> 포인터
     - 포인터 <-> 정수
     - 서로 다른 타입에 대한 참조
@@ -204,13 +182,13 @@ struct C : public A , public B{ int c ; };
     cout << & cc << endl;   // 1000
     cout << pA << endl;     // 1000
     cout << pB << endl; // 1004  because of int a => 1000 , int b => 1004
-<a name="```-2"></a>
+```
 
-2.4\. ```
 ------------
+
 <a name="const_cast:"></a>
 
-### 2.4.1\. const_cast : 
+### 2.1.4\. const_cast : 
     - const_cast는 **const**와 **volatile**을 제거할때 사용하는 것이다.
     - const만 제거하는 것이고 , type을 바꾸지는 못한다.
 - [source casting4](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/casting4.cpp)
@@ -239,16 +217,16 @@ struct C : public A , public B{ int c ; };
     char *p = reinterpret_cast<char*>(const_cast<int*>(&c));
 
     char* p1 = (char*)&c;  // ok .. C style casting
-<a name="```-3"></a>
+```
 
-2.5\. ```
 ----------
+
 <a name="addressof"></a>
 
-## 2.6\. addressof
+## 2.2\. addressof
 <a name="내주소를알리지말라!```point*operator&const{returnnullptr;}```"></a>
 
-### 2.6.1\. 내주소를 알리지 말라!  ```Point* operator&() const { return nullptr; }```
+### 2.2.1\. 내주소를 알리지 말라!  ```Point* operator&() const { return nullptr; }```
     - 주소를 나타낼때는 0대신 nullptr을 사용하자 - c++11
 - [source  1_addressof1.cpp  : 7 page](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/1_addressof1.cpp)
 ```cpp
@@ -266,13 +244,13 @@ public:
 
     Point* p1 = reinterpret_cast<Point*>( &(reinterpret_cast<char&>(pt)) ); // ok
         // char로 일반 변환해야 Point&로 먹지 않게 된다.  그래서 일단 char&으로 변환하여 다시 Point*으로 제변환하는 것이다.
-<a name="```-4"></a>
+```
 
-2.7\. ```
 -------------
+
 <a name="최대의경우인constvolatile로바꾸어주고constchar->const없애고char->그것의주소를얻는다."></a>
 
-### 2.7.1\. 최대의 경우인 const volatile로 바꾸어주고(const char) -> const없애고(char) -> 그것의 주소를 얻는다.
+### 2.2.2\. 최대의 경우인 const volatile로 바꾸어주고(const char) -> const없애고(char) -> 그것의 주소를 얻는다.
 - [source  1_addressof3.cpp  : 7 page](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/1_addressof3.cpp)
 ```cpp
 // 1_addressof3.cpp  : 7 page
@@ -300,16 +278,16 @@ T* myaddressof(T& obj)
     const Point* p1 = myaddressof(pt);
 
     const Point* p2 = addressof(pt);
-<a name="```-5"></a>
+```
 
-2.8\. ```
 -------------
+
 <a name="상수멤버함수"></a>
 
-## 2.9\. 상수 멤버 함수
+## 2.3\. 상수 멤버 함수
 <a name="**앞으로const붙이는것을꼭해주세요..무지중요합니다.**"></a>
 
-### 2.9.1\. **앞으로 const 붙이는 것을 꼭 해주세요.. 무지 중요합니다.**
+### 2.3.1\. **앞으로 const 붙이는 것을 꼭 해주세요.. 무지 중요합니다.**
 - 핵심 : 상수 객체는 상수 함수만 호출 가능하다.
     - "객체의 상태를 변경하지 않는 모든 멤버 함수(getter)는 반드시 상수 멤버 함수되어야 한다."
     - ** 상수 객체는 member 함수를 부를수없다. 그러나, 함수 뒤에 const를 한 것을 부를수 있다. int getArea()뒤에 const가 없으면 에러가 된다.   header에는 꼭 const를 붙여주어야 한다.
@@ -325,16 +303,16 @@ public:
     const Rect r; // 생성자로 초기화 했다고 가정
     int n= r.getArea();
 ```
-<a name="-source2_const1"></a>
+- [source 2_const1](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/2_const1.cpp)
 
-2.10\. - [source 2_const1](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/2_const1.cpp)
 -----------
+
 <a name="참조계수"></a>
 
-## 2.11\. 참조 계수
+## 2.4\. 참조 계수
 <a name="참조계수생성규칙"></a>
 
-### 2.11.1\. 참조 계수 생성 규칙
+### 2.4.1\. 참조 계수 생성 규칙
 - 규칙
     - 규칙 1 . 객체 생성시 참조 계수 증가
     - 규칙 2 . 포인터 복사시 참조계수 증가
@@ -367,23 +345,23 @@ protected :
 };
 
     Car c;      // error : 위와 같이 protected일때 에러
-<a name="```-6"></a>
+```
 
-2.12\. ```
 -----------
+
 <a name="파생클래스의소멸자호출"></a>
 
-### 2.12.1\. 파생클래스의 소멸자 호출
+### 2.4.2\. 파생클래스의 소멸자 호출
 - 핵심 기반 클래스 포인터로 delete하면 기반 클래스의 소멸자만 호출된다.
     - 파생클래스 소멸자를 호출되게 하려면 viraul destructor를 사용해야 한다. - C++ 기본 문법
     - **virtual** ~myRefCountedBase(){}
-<a name="-source3_reference3:195page"></a>
+- [source 3_reference3 : 195 page  ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/3_reference3.cpp)
 
-2.13\. - [source 3_reference3 : 195 page  ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/3_reference3.cpp)
 -----------
+
 <a name="virtual을사용하지않고파생클래스의소멸자호출"></a>
 
-### 2.13.1\. virtual을 사용하지 않고 파생클래스의 소멸자 호출
+### 2.4.3\. virtual을 사용하지 않고 파생클래스의 소멸자 호출
 - virtual을 사용하면 실행 속도가 느려질수 있어 , 가능하면 사용하지 않으려 한다.
 - CRTP (Curiosly Recurring Templae Pattern) - 71 page
     - // 기반 클래스가 템플릿인데, 파생 클래스를 만들때 자신의 이름을
@@ -426,13 +404,13 @@ int main()
     p1->deref();    // 규칙 3 . 더이상 필요없을때 참조계수 감소
 
 }
-<a name="```-7"></a>
+```
 
-2.14\. ```
 ----------
+
 <a name="참조계수를조작하는함수"></a>
 
-### 2.14.1\. 참조 계수를 조작하는 함수
+### 2.4.4\. 참조 계수를 조작하는 함수
 - 상수 객체라도 수명을 관리할수 있어야 한다.
 - 참조 계수를 조작하는 함수는 반드시 "상수 멤버함수"이어야 한다.
     - 참조 계수 변수에 mutable을 붙여서 const에서도 write가 되게 해야 한다.
@@ -454,13 +432,13 @@ public:
 protected:
     ~myRefCountedBase(){}
 };
-<a name="```-8"></a>
+```
 
-2.15\. ```
 ---------
+
 <a name="c++11멀티쓰레드에서안전한타입atomic"></a>
 
-### 2.15.1\. C++11 멀티쓰레드에서 안전한 타입 (atomic)
+### 2.4.5\. C++11 멀티쓰레드에서 안전한 타입 (atomic)
 - ```#include <atomic> ```
 - fetch가 CPU lock을 쓰므로 성능적으로 더 유리하다. mutex lock은 보통 system lock을 사용하게 된다.
 - this in ```void deref() const```
@@ -490,13 +468,13 @@ public:
 protected:
     ~RefCountedBase() {}
 };
-<a name="```-9"></a>
+```
 
-2.16\. ```
 ------------
+
 <a name="thintemplate"></a>
 
-### 2.16.1\. thin template
+### 2.4.6\. thin template
 - 클래스 템플릿이 너무 많은 타입에 대해서 인스턴스화 될때 코드가 커닐수 있다. - code bloat
     - // code bloat를 막기 위한 기술
 - T를 사용하지 않는 멤버 함수를 템플릿이 아닌 기반 클래스를 만들어서 상속받자.!!
@@ -532,13 +510,13 @@ public:
         ~Car() { std::cout << "~Car" << std::endl; }
 };
         const Car* p1 = new Car;
-<a name="```-10"></a>
+```
 
-2.17\. ```
 ------------
+
 <a name="복사되면안되는classmacro:참조계수class를복사되지않게해야한다."></a>
 
-### 2.17.1\. 복사되면 안되는 class (MACRO) : 참조 계수 class를 복사되지 않게 해야 한다. 
+### 2.4.7\. 복사되면 안되는 class (MACRO) : 참조 계수 class를 복사되지 않게 해야 한다. 
 - 이 클래스는 (또는 기반 클래스)는 복사 되면 안된다.
     - // 컴파일러가 복사 생성자를 만들지 못하게 된다.
     - // 아래 2개는 항상 쌍으로 다닌다.  그래서 macro를 이용한다.
@@ -556,13 +534,13 @@ class RefCounted : public RefCountedBase
     //RefCounted(const RefCounted&) = delete; // c++11 함수 삭제
     //RefCounted& operator=(const RefCounted&) = delete;  // 대입도 삭제
     WTF_MAKE_NONCOPYABLE(RefCounted);
-<a name="```-11"></a>
+```
 
-2.18\. ```
 ------------
+
 <a name="스마트포인터"></a>
 
-### 2.18.1\. 스마트 포인터
+### 2.4.8\. 스마트 포인터
 - 객체를 참조 계수 기반으로 관리하기로 결정했다면 raw pointer를 사용하게 하지 말자!! 스마트 포인터를 도입해야 한다.
 - 진짜 포인터처럼 -> 를 사용할수 있어야 한다.
 ```cpp
@@ -601,16 +579,16 @@ int main()
 
     // webkit에서는 AutoPtr로 참조 계수를 관리한다.
 }
-<a name="```-12"></a>
+```
 
-2.19\. ```
 ------
+
 <a name="thintemplate-1"></a>
 
-## 2.20\. thin template
+## 2.5\. thin template
 <a name="template는너무많은member함수를만든다."></a>
 
-### 2.20.1\. template는 너무 많은 member 함수를 만든다.
+### 2.5.1\. template는 너무 많은 member 함수를 만든다.
 - 템플릿 인자와 관련 없는 모든 멤버는 기반 클래스(템플린이 아닌)로 제공한다.
 - [source 4_thinTemplate3 : 237 page](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/4_thinTemplate3.cpp)
 ```cpp
@@ -636,13 +614,13 @@ public:
     T& front() { return buff[0]; }
     T& last(){ return buff[size-1]; }
 };
-<a name="```-13"></a>
+```
 
-2.21\. ```
 ----------------
+
 <a name="void를이용하여thintemplate을더가볍게"></a>
 
-### 2.21.1\. void를 이용하여 thin template을 더 가볍게
+### 2.5.2\. void를 이용하여 thin template을 더 가볍게
 - pointer에 대해서는 ```void*```를 사용하면 더 많은 member function을 Base class에 넣울수 있다.
     - 실제로는 T 를 쓰는 것들의 크기가 크다.
     - 이번에는 T도 VectorBase로 올려본다.
@@ -692,13 +670,13 @@ public:
     T& front() { return static_cast<T&>(buff[0]); }
     T& last(){ return static_cast<T&>(buff[size-1]); }
 };
-<a name="```-14"></a>
+```
 
-2.22\. ```
 ----------
+
 <a name="this"></a>
 
-## 2.23\. this
+## 2.6\. this
 - this 에 대한 설명
     - 함수가 const이면 arguments들도 모두 const가 붙어서 넘겨지게 된다. this 도 마찬가지이다.
 - [source 5_this](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/5_this1.cpp)
@@ -727,13 +705,13 @@ int main()
                     // mov ecx,&p1   객체 주소는 레지스터에
                     // call Point::set
 }
-<a name="```-15"></a>
+```
 
-2.24\. ```
 ----------
+
 <a name="crtp"></a>
 
-## 2.25\. CRTP
+## 2.7\. CRTP
 -  virtual로 call 하면 MyWindow::Click를 부를수 있다. 그러나, 느려지므로 virtual은 쓰지 않는 것으로 한다. 그래서 template을 대신 사용
 - android ::  libutils/include/utils/singleton.h  : CRTP를 사용하는 singleton    but , 여기서도 다른 방식 추천
 - [source 6_CRTP](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/6_CRTP1.cpp)
@@ -765,20 +743,20 @@ int main()
     w.msgLoop();    // 1을 call
 
 }
-<a name="```-16"></a>
+```
 
-2.26\. ```
 -----------
+
 <a name="예외안정성"></a>
 
-## 2.27\. 예외 안정성
+## 2.8\. 예외 안정성
 - // 예외 안정성 (exception safety)
     - 1. 완전 보장 : 예외가 없다. ex) int n=0  int *p = nullptr
     - 2. 강력 보장 : 예외가 있지만 잡아서 처리하면 객체의 상태는 예외 발생 이전 상태가 된다. 계속 사용가능하다.
     - 3. 기본 보장 : 예외가 발생해도 잡으면 자원 누수는 없다.  단, 객체의 상태는 알수 없다. 이어서 사용할수 없다.
 <a name="제거와반환을분리"></a>
 
-### 2.27.1\. 제거와 반환을 분리
+### 2.8.1\. 제거와 반환을 분리
 - stl은 제거와 반환을 분리  : 강력 보장을 지키기 위해서 이다.
 - STL이 제거와 반호나을 동시에 하지 않는 이유
     - 1. 예외 안정성의 강력보장을 지키기 위해
@@ -816,13 +794,13 @@ int main()
         std::cout << e.what() << std::endl;
     }
 }
-<a name="```-17"></a>
+```
 
-2.28\. ```
 -----------
+
 <a name="깊은복사로구현한대입연산자"></a>
 
-### 2.28.1\. 깊은 복사로 구현한 대입 연산자
+### 2.8.2\. 깊은 복사로 구현한 대입 연산자
 - 자신과 대입할 경우 (s1 = s1) ```        if(&s == this) return *this;```
 - s의 복사본을 만든다. ```   String temp(s);     // RAII 기법```
     - RAII 기법: 중간에 문제가 되어도 String은 객체이므로 관련 내용은 소멸이 잘 되어 문제가 안된다.
@@ -877,10 +855,10 @@ int main()
 
     s1 = s2; //  이때를 생각해 봅시다.
 }
-<a name="```-18"></a>
+```
 
-2.29\. ```
 --------
+
 
 ==================
 
@@ -889,6 +867,7 @@ int main()
 # 3\. Day2
 
 ------------
+
 <a name="a"></a>
 
 ## 3.1\. A
@@ -901,7 +880,7 @@ int main()
 - [source casting3](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/casting3.cpp)
 ```cpp
     cout << pB << endl; // 1004  because of int a => 1000 , int b => 1004
-<a name="```-19"></a>
+```
 
-3.2\. ```
 ------------
+

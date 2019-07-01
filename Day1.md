@@ -67,7 +67,9 @@ int main()
     printf("%d\n",*p);
 }
 ```
+
 ----------
+
 ### static_cast
     - 1. 연관성이 있는 타입끼리의 캐스팅 (reference가 아니다)
     - 2. 표준 타입을 값으로 캐스팅
@@ -83,7 +85,9 @@ int main()
         const int c=10;
         int *p3 = static_cast<int*>(&c);        // const int* => int* : error
 ```
+
 ------------
+
 ### reinterpret_cast : memory 관련된 타입 캐스팅이 된다.  reference / point만 변환이 되는 것이다.
     - 포인터 <-> 포인터
     - 포인터 <-> 정수
@@ -131,7 +135,9 @@ struct C : public A , public B{ int c ; };
     cout << pA << endl;     // 1000
     cout << pB << endl; // 1004  because of int a => 1000 , int b => 1004
 ```
+
 ------------
+
 ### const_cast : 
     - const_cast는 **const**와 **volatile**을 제거할때 사용하는 것이다.
     - const만 제거하는 것이고 , type을 바꾸지는 못한다.
@@ -162,7 +168,9 @@ struct C : public A , public B{ int c ; };
 
     char* p1 = (char*)&c;  // ok .. C style casting
 ```
+
 ----------
+
 ## addressof
 ### 내주소를 알리지 말라!  ```Point* operator&() const { return nullptr; }```
     - 주소를 나타낼때는 0대신 nullptr을 사용하자 - c++11
@@ -183,7 +191,9 @@ public:
     Point* p1 = reinterpret_cast<Point*>( &(reinterpret_cast<char&>(pt)) ); // ok
         // char로 일반 변환해야 Point&로 먹지 않게 된다.  그래서 일단 char&으로 변환하여 다시 Point*으로 제변환하는 것이다.
 ```
+
 -------------
+
 ### 최대의 경우인 const volatile로 바꾸어주고(const char) -> const없애고(char) -> 그것의 주소를 얻는다.
 - [source  1_addressof3.cpp  : 7 page](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/1_addressof3.cpp)
 ```cpp
@@ -213,7 +223,9 @@ T* myaddressof(T& obj)
 
     const Point* p2 = addressof(pt);
 ```
+
 -------------
+
 ## 상수 멤버 함수
 ### **앞으로 const 붙이는 것을 꼭 해주세요.. 무지 중요합니다.**
 - 핵심 : 상수 객체는 상수 함수만 호출 가능하다.
@@ -232,7 +244,9 @@ public:
     int n= r.getArea();
 ```
 - [source 2_const1](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/2_const1.cpp)
+
 -----------
+
 ## 참조 계수
 ### 참조 계수 생성 규칙
 - 규칙
@@ -268,13 +282,17 @@ protected :
 
     Car c;      // error : 위와 같이 protected일때 에러
 ```
+
 -----------
+
 ### 파생클래스의 소멸자 호출
 - 핵심 기반 클래스 포인터로 delete하면 기반 클래스의 소멸자만 호출된다.
     - 파생클래스 소멸자를 호출되게 하려면 viraul destructor를 사용해야 한다. - C++ 기본 문법
     - **virtual** ~myRefCountedBase(){}
 - [source 3_reference3 : 195 page  ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/3_reference3.cpp)
+
 -----------
+
 ### virtual을 사용하지 않고 파생클래스의 소멸자 호출
 - virtual을 사용하면 실행 속도가 느려질수 있어 , 가능하면 사용하지 않으려 한다.
 - CRTP (Curiosly Recurring Templae Pattern) - 71 page
@@ -319,7 +337,9 @@ int main()
 
 }
 ```
+
 ----------
+
 ### 참조 계수를 조작하는 함수
 - 상수 객체라도 수명을 관리할수 있어야 한다.
 - 참조 계수를 조작하는 함수는 반드시 "상수 멤버함수"이어야 한다.
@@ -343,7 +363,9 @@ protected:
     ~myRefCountedBase(){}
 };
 ```
+
 ---------
+
 ### C++11 멀티쓰레드에서 안전한 타입 (atomic)
 - ```#include <atomic> ```
 - fetch가 CPU lock을 쓰므로 성능적으로 더 유리하다. mutex lock은 보통 system lock을 사용하게 된다.
@@ -375,7 +397,9 @@ protected:
     ~RefCountedBase() {}
 };
 ```
+
 ------------
+
 ### thin template
 - 클래스 템플릿이 너무 많은 타입에 대해서 인스턴스화 될때 코드가 커닐수 있다. - code bloat
     - // code bloat를 막기 위한 기술
@@ -413,7 +437,9 @@ public:
 };
         const Car* p1 = new Car;
 ```
+
 ------------
+
 ### 복사되면 안되는 class (MACRO) : 참조 계수 class를 복사되지 않게 해야 한다. 
 - 이 클래스는 (또는 기반 클래스)는 복사 되면 안된다.
     - // 컴파일러가 복사 생성자를 만들지 못하게 된다.
@@ -433,7 +459,9 @@ class RefCounted : public RefCountedBase
     //RefCounted& operator=(const RefCounted&) = delete;  // 대입도 삭제
     WTF_MAKE_NONCOPYABLE(RefCounted);
 ```
+
 ------------
+
 ### 스마트 포인터
 - 객체를 참조 계수 기반으로 관리하기로 결정했다면 raw pointer를 사용하게 하지 말자!! 스마트 포인터를 도입해야 한다.
 - 진짜 포인터처럼 -> 를 사용할수 있어야 한다.
@@ -474,7 +502,9 @@ int main()
     // webkit에서는 AutoPtr로 참조 계수를 관리한다.
 }
 ```
+
 ------
+
 ## thin template
 ### template는 너무 많은 member 함수를 만든다.
 - 템플릿 인자와 관련 없는 모든 멤버는 기반 클래스(템플린이 아닌)로 제공한다.
@@ -503,7 +533,9 @@ public:
     T& last(){ return buff[size-1]; }
 };
 ```
+
 ----------------
+
 ### void를 이용하여 thin template을 더 가볍게
 - pointer에 대해서는 ```void*```를 사용하면 더 많은 member function을 Base class에 넣울수 있다.
     - 실제로는 T 를 쓰는 것들의 크기가 크다.
@@ -555,7 +587,9 @@ public:
     T& last(){ return static_cast<T&>(buff[size-1]); }
 };
 ```
+
 ----------
+
 ## this
 - this 에 대한 설명
     - 함수가 const이면 arguments들도 모두 const가 붙어서 넘겨지게 된다. this 도 마찬가지이다.
@@ -586,7 +620,9 @@ int main()
                     // call Point::set
 }
 ```
+
 ----------
+
 ## CRTP
 -  virtual로 call 하면 MyWindow::Click를 부를수 있다. 그러나, 느려지므로 virtual은 쓰지 않는 것으로 한다. 그래서 template을 대신 사용
 - android ::  libutils/include/utils/singleton.h  : CRTP를 사용하는 singleton    but , 여기서도 다른 방식 추천
@@ -620,7 +656,9 @@ int main()
 
 }
 ```
+
 -----------
+
 ## 예외 안정성
 - // 예외 안정성 (exception safety)
     - 1. 완전 보장 : 예외가 없다. ex) int n=0  int *p = nullptr
@@ -665,7 +703,9 @@ int main()
     }
 }
 ```
+
 -----------
+
 ### 깊은 복사로 구현한 대입 연산자
 - 자신과 대입할 경우 (s1 = s1) ```        if(&s == this) return *this;```
 - s의 복사본을 만든다. ```   String temp(s);     // RAII 기법```
@@ -722,4 +762,6 @@ int main()
     s1 = s2; //  이때를 생각해 봅시다.
 }
 ```
+
 --------
+

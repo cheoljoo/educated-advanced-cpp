@@ -4,6 +4,7 @@
 # Day2
 
 ------------
+
 ## A
 ### reinterpret_cast : memory 관련된 타입 캐스팅이 된다.  reference / point만 변환이 되는 것이다.
     - 포인터 <-> 포인터
@@ -13,4 +14,6 @@
 ```cpp
     cout << pB << endl; // 1004  because of int a => 1000 , int b => 1004
 ```
+
 ------------
+
