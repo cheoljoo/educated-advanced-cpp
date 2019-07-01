@@ -45,7 +45,22 @@ casting4:
 3ref9:
 	g++ -std=c++11 3_reference9.cpp -o a
 	./a
-all: 3ref10
 3ref10:
 	g++ -std=c++11 3_reference10.cpp -o a
 	./a
+4thin1:
+	g++ -std=c++11 4_thinTemplate1.cpp -o a
+	./a
+4thin2:
+	g++ -std=c++11 4_thinTemplate2.cpp -o a
+	./a
+4thin3:
+	g++ -std=c++11 4_thinTemplate3.cpp -o a
+	./a
+5this1:
+	g++ -std=c++11 5_this1.cpp -o a
+	./a
+6CTRP1:
+	g++ -std=c++11 6_CRTP1.cpp -o a
+	./a
+all: 6CTRP1
