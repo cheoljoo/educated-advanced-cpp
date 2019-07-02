@@ -18,8 +18,8 @@
 
 /* c++17 이전
 ```cpp 
-tempate <typename T> void foo_imp(T v, true_true){}
-tempate <typename T> void foo_imp(T v, false_true){}
+tempate <typename T> void foo_imp(T v, true_type){}
+tempate <typename T> void foo_imp(T v, false_type){}
 
 template<typename T> void foo(T v)
 {
