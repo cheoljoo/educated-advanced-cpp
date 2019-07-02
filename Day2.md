@@ -897,6 +897,17 @@ int main()
 - **질문 : 결과 값이 1이 나와야 하는데 자꾸 0이 나옴.**  ```U() -> declval<U>()``` 으로만 바꾼 것이 4번
 - [source 12_member_detect2 143 page](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day2/12_member_detect2.cpp)
 - [source 12_member_detect4 143 page](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day2/12_member_detect4.cpp)
+	- 답은 12_member_detect4.cpp 에서만 해봄.
+		- template class myTest를 만들어 해보니 됨.  vector 일때만 안됨.
+```cpp
+template<typename T> class myTest {
+        T a;
+public:
+        void front(){}
+};
+
+bool b = has_front_function<myTest<int>>::value; // 1
+```
 
 ------------
 
