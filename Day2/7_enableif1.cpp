@@ -16,7 +16,7 @@ template<bool b, typename T=void> struct enable_if
     typedef T type;
 };
 
-// 부분특수화에서는 default값을 적지 않다고 일반화의 적용을 받는다. 
+// 부분특수화에서는 default값을 적지 않아도 일반화의 적용을 받는다. 
 template<typename T> struct enable_if<false,T>
 {
 };
