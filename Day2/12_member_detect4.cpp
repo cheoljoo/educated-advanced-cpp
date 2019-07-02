@@ -8,6 +8,12 @@
 #include <array>
 #include <complex>
 
+template<typename T> class myTest {
+	T a;
+public:
+	void front(){}
+};
+
 template<typename T> struct has_front_function
 {
     typedef char YES[1];        // 143 page ArrayOne
@@ -23,7 +29,8 @@ template<typename T> struct has_front_function
 
 int main()
 {
-	bool b = has_front_function<std::vector<int>>::value;
+	//bool b = has_front_function<std::vector<int>>::value;
+	bool b = has_front_function<myTest<int>>::value;
 	//bool b = has_front_function<std::complex<double>>::value;
 
 	std::cout << b << std::endl;
