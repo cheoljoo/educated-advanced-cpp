@@ -106,4 +106,7 @@ partially_specialization:
 12_member_detect6:
 	g++ -std=c++17 12_member_detect6.cpp -o a
 	./a
-all: 12_member_detect6
+memfun4:
+	g++ -std=c++17 memfun4.cpp -o a
+	./a
+all: memfun4
