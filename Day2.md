@@ -236,7 +236,7 @@ int main()
 - traits : 템플릿 인자 T의 다양한 특질(Traits)를 조사하는 기술.
     - speicialzation을 이용하여 <T*> 로 받을때는 enum {value=다른값}으로 정의하면된다.
     - ::으로 값을 가져오는 것은 enum과 변수 등 이다.
-    - partially_specialization.cpp 참조
+    - [partially_specialization.cpp 참조](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day2/partially_specialization.cpp)
 - is_pointer : 컴파일할때 T가 pointer인지 조사하는 도구
     - 컴파일 할때 사용하는 함수 라는 의미로 meta function 이라고도 한다.
     - 만드는 방법
@@ -273,21 +273,62 @@ void foo(T v)
 - is_reference  ``` <T&> <T&&> ```
 - is_const   ``` <const T> ```
 - [source 2_traits3 115 page](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day2/2_traits3.cpp)
+
+------------
+
+### c++11 부터 다양한 traits를 표준으로 제공합니다.
 ```cpp
-    cout << pB << endl; // 1004  because of int a => 1000 , int b => 1004
+#include <type_traits>
+    std::cout << is_reference<int>::value << std::endl; // 0
+    std::cout << is_reference<int&>::value << std::endl; // 1
+
+    std::cout << is_const<int>::value << std::endl; // 0
+    std::cout << is_const<const int>::value << std::endl; // 1
 ```
 
 ------------
 
+## int2type
 
-### 줄
-    - 포인터 <-> 포인터
-    - 포인터 <-> 정수
-    - 서로 다른 타입에 대한 참조
-- [source 1_new3](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day2/1_new3.cpp)
+### template
+- 템플릿 : 클래스를 만드는 툴
+    - 사용하지 않으면 클래스가 생성되지 않는다.
+    - template은 사용한 코드만 만들어진다.
+    - lazy instantiation : 사용된 템플릿만 인스턴스화 (실제 C++ code 생성) 된다.
+- [source 3_int2type1  115 page](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day2/3_int2type1.cpp)
 ```cpp
-    cout << pB << endl; // 1004  because of int a => 1000 , int b => 1004
+template<typename T>
+class A
+{
+    T data;
+public:
+    void foo(T a)
+    {
+        *a = 10;    // 1. 템플릿만 있을때는 코드가 안 만들어지므로 error가 나지 않는다.
+    }
+
+};
+
+int main()
+{
+    A<int> a;       // 2. T는 지정은 했지만, foo를 호출하지 않았기 때문에 위의 1번 error가 발생하지 않는다.
+    a.foo(0);       // 3. foo를 사용하므로 error가 발생한다.
+}
 ```
+
+- fail : https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day2/3_int2type2.cpp
+```cpp
+template<typename T>
+void printv(T a)
+{
+    if(std::is_pointer<T>::value) // case 1 : if (false) <== compile에서 없어지지 않음.
+        std::cout << a << ":" << *a << std::endl;
+    else
+        std::cout << a << std::endl;
+}
+```
+- fail : https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day2/3_int2type3.cpp
+
 
 ------------
 
