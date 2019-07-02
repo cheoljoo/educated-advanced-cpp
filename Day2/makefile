@@ -88,4 +88,22 @@ partially_specialization:
 11_is_abstract3:
 	g++ -std=c++17 11_is_abstract3.cpp -o a
 	./a
-all: 11_is_abstract3
+11_is_abstract4:
+	g++ -std=c++17 11_is_abstract4.cpp -o a
+	./a
+12_member_detect2:
+	g++ -std=c++17 12_member_detect2.cpp -o a
+	./a
+12_member_detect3:
+	g++ -std=c++17 12_member_detect3.cpp -o a
+	./a
+12_member_detect4:
+	g++ -std=c++17 12_member_detect4.cpp -o a
+	./a
+12_member_detect5:
+	g++ -std=c++17 12_member_detect5.cpp -o a
+	./a
+12_member_detect6:
+	g++ -std=c++17 12_member_detect6.cpp -o a
+	./a
+all: 12_member_detect6

@@ -19,8 +19,8 @@ template<typename T> struct is_abstract
     typedef char YES[1];        // 143 page ArrayOne
     typedef char NO[2];
 
-    static template<typename T> NO& test(T* (*arr)[2]);     // 추상클래스 일때 실패했으면 함
-    static template<typename T> YES& test(...){}
+    static template<typename U> NO& test(U* (*arr)[2]);     // 추상클래스 일때 실패했으면 함
+    static template<typename U> YES& test(...){}
 
     static constexpr bool value = (sizeof(test<t>(0)) == sizeof(YES));
 };
