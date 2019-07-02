@@ -7,10 +7,13 @@
 //using namespace std;
 
 /*
-- 포인터 여부에 따라 다르게 처리하는 방법
-    - C++17이전 
-        - 1. (C++11) is_pointer<T>::value 사용
-        - 2. (C++11) true_type/false_type을 사용한 함수 오버로딩
+- 포인터 여부에 따라 다르게 처리하는 방법 (3가지)
+    - C++17이전  -std=c++11
+        - 1-1. (C++11) is_pointer<T>::value 사용
+        - 1-2. (C++11) true_type/false_type을 사용한 함수 오버로딩
+    - 2. enable_if
+    - C++17이후  -std=c++17
+        - 3. if constexpr : 컴파일 시간 if 문
 */
 
 /* c++17 이전
