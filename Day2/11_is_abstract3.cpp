@@ -12,7 +12,7 @@ public:
 };
 
 
-template<typename T> short test(T* (*arr)[2]);     // 추상클래스 일때 실패했으면 함
+template<typename T> short test(T (*arr)[2]);     // 추상클래스 일때 실패했으면 함
 template<typename T> char test(...){}
 
 template<typename T> struct is_abstract
