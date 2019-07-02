@@ -76,5 +76,16 @@ partially_specialization:
 10_trivial3:
 	g++ -std=c++17 10_trivial3.cpp -o a
 	./a
-p: 10_trivial2
-all: 10_trivial3
+10_trivial4:
+	g++ -std=c++11 10_trivial4.cpp -o a
+	./a
+11_is_abstract1:
+	g++ -std=c++11 11_is_abstract1.cpp -o a
+	./a
+11_is_abstract2:
+	g++ -std=c++11 11_is_abstract2.cpp -o a
+	./a
+11_is_abstract3:
+	g++ -std=c++17 11_is_abstract3.cpp -o a
+	./a
+all: 11_is_abstract3
