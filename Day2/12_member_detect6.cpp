@@ -24,9 +24,8 @@ template<typename T> struct has_member_x
 
     // T() : T 타입의 객체 생성
     // decltype(표현식) arg : 표현식의 타입과 동일한 타입의 변수 arg from C++11
-    template<typename U> 
-	    static YES& test( check<U, &U::x>* p );
-    template<typename U> static NO& test(...){}
+    template<typename U> static YES& test( check<U, &U::x>* p );
+    template<typename U> static NO& test(...);
 
     static constexpr bool value = (sizeof(test<T>(0)) == sizeof(YES));
 };

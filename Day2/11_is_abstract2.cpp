@@ -27,7 +27,7 @@ public:
 
 //template<typename T> short test(T* (*arr)[2]){}     // 추상클래스 일때 실패했으면 함
     // 아래줄 처럼 구현부를 뺌. 실제로 수행할 것은 아님.
-template<typename T> short test(T* (*arr)[2]);     // 추상클래스 일때 실패했으면 함
+template<typename T> short test(T (*arr)[2]);     // 추상클래스 일때 실패했으면 함
 template<typename T> char test(...){}
 
 int main()
