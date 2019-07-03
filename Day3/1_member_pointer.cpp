@@ -1,4 +1,4 @@
-/*1_member_function
+/*1_member_pointer
 - 
 */
 

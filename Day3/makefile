@@ -115,4 +115,70 @@ memfun4:
 2_smart_pointer1:
 	g++ -std=c++17 2_smart_pointer1.cpp -o a
 	./a
-all: 2_smart_pointer1
+1_member_pointer4:
+	g++ -std=c++17 1_member_pointer4.cpp -o a
+	./a
+1_member_pointer5:
+	g++ -std=c++17 1_member_pointer5.cpp -o a
+	./a
+1_member_pointer7:
+	g++ -std=c++11 1_member_pointer7.cpp -o a
+	./a
+1_member_pointer8:
+	g++ -std=c++11 1_member_pointer8.cpp -o a
+	./a
+2_smart_pointer2:
+	g++ -std=c++17 2_smart_pointer2.cpp -o a
+	./a
+2_smart_pointer4:
+	g++ -std=c++17 2_smart_pointer4.cpp -o a
+	./a
+3_forwarding_reference2:
+	g++ -std=c++17 3_forwarding_reference2.cpp -o a
+	./a
+3_forwarding_reference4:
+	g++ -std=c++11 3_forwarding_reference4.cpp -o a
+	./a
+3_forwarding_reference5:
+	g++ -std=c++11 3_forwarding_reference5.cpp -o a
+	./a
+3_forwarding_reference6:
+	g++ -std=c++11 3_forwarding_reference6.cpp -o a
+	./a
+3_forwarding_reference7:
+	g++ -std=c++11 3_forwarding_reference7.cpp -o a
+	./a
+3_forwarding_reference8:
+	g++ -std=c++11 3_forwarding_reference8.cpp -o a
+	./a
+3_forwarding_reference10:
+	g++ -std=c++11 3_forwarding_reference10.cpp -o a
+	./a
+3_forwarding_reference11:
+	g++ -std=c++11 3_forwarding_reference11.cpp -o a
+	./a
+reference:
+	g++ -std=c++11 reference.cpp -o a
+	./a
+reference2:
+	g++ -std=c++11 reference2.cpp -o a
+	./a
+3_forwarding_reference12:
+	g++ -std=c++11 3_forwarding_reference12.cpp -o a
+	./a
+4_temporary1:
+	g++ -std=c++11 4_temporary1.cpp -o a
+	./a
+4_temporary2:
+	g++ -std=c++11 4_temporary2.cpp -o a
+	./a
+4_temporary3:
+	g++ -std=c++11 4_temporary3.cpp -o a
+	./a
+4_temporary5:
+	g++ -std=c++11 4_temporary5.cpp -o a
+	./a
+4_temporary6:
+	g++ -std=c++11 4_temporary6.cpp -o a -fno-elide-constructors
+	./a
+all: 4_temporary6
