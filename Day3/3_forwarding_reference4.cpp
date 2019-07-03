@@ -14,8 +14,8 @@
 */
 
 // 위/아래의 모든 경우를 종합하면
-// lvalue(n)을 보내면 T:int&    함수(int&)
-// rvalue(0)을 보내면 T:int     함수(int&&)
+// lvalue(n)을 보내면 T:int&    함수(int&)   f(T)
+// rvalue(0)을 보내면 T:int     함수(int&&)  f(T&&)
 
 
 void f1(int& a){}

@@ -8,8 +8,8 @@
 /*
 -  우선순위
 	- void foo(int& a){ std::cout << __PRETTY_FUNCTION__ << std::endl; }
-	- void foo(int&& a){ std::cout << __PRETTY_FUNCTION__ << std::endl; }
 	- void foo(const int& a){ std::cout << __PRETTY_FUNCTION__ << std::endl; }
+	- void foo(int&& a){ std::cout << __PRETTY_FUNCTION__ << std::endl; }
 */
 
 // __FUNCTION__ : C++ 표준 매크로 , 함수 이름을 나타낸다.
@@ -24,7 +24,7 @@ int main()
 	int n= 0;
 	foo(n); 	// 1번 호출 , 없으면 2번
 
-	foo(10);	// 3 번 호출 , 없으면 2번 (cons는 나중에)
+	foo(10);	// 3 번 호출 , 없으면 2번 (3번이 rvalue로는 더 적당. const는 나중에)
 
 	int& r = n;
 	foo (r);	// 1번 호출 , 없으면 2번

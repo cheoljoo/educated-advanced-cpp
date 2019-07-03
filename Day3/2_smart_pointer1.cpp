@@ -33,7 +33,7 @@ int main()
 	std::cout << sp3.use_count() << std::endl; 	// 1
 /*
 -  RAII : Resource Acquitition Is Initialization - 197 page
-	- 자원을 할당한느 것은 자원 관리 객체가 초기화될때 여야 한다. 
+	- 자원을 할당하는 것은 자원 관리 객체가 초기화될때 여야 한다. 
 */
 	std::shared_ptr<int> sp5(new int); // ok!!
 
