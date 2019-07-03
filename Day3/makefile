@@ -109,4 +109,10 @@ partially_specialization:
 memfun4:
 	g++ -std=c++17 memfun4.cpp -o a
 	./a
-all: 12_member_detect4
+1_member_pointer:
+	g++ -std=c++17 1_member_pointer.cpp -o a
+	./a
+2_smart_pointer1:
+	g++ -std=c++17 2_smart_pointer1.cpp -o a
+	./a
+all: 2_smart_pointer1
