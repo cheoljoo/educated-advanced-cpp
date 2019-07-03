@@ -8,21 +8,35 @@
 
 ### pointer of member function and invoke (c++17)
 - 핵심
-	- 1. 일반함수 포인터에 멤버함수 주소를 넣을수 없다.
+	- 1. 일반 함수 포인터에 멤버함수 주소를 넣을수 없다.
+		```cpp
+		void(*f1)() = &foo;	// ok 
+		//void(*f2)() = &Dialog::Close; // error : 객체가 있어야 하기 때문
+		```
 	- 2. 일반 함수 포인터에 static 멤버함수의 주소를 넣을수 있다.
+		```cpp
+class Dialog
+{
+public:
+	void Close() 	// voidClose(Dialog* this)
+	{ 
+		std::cout << "Close" << std::endl; 
+	}
+	static void Close2(){}
+};
+
+	void(*f3)() = &Dialog::Close2; // ok
+		```
 	- 3. 멤버함수의 포인터를 만들고 사용하는 방법
-	```cpp
-	void(Dialog::*f2)() = &Dialog::Close; // ok
-	Dialog dlg;
-	(dlg.*f2)(); // ok
-	(&(dlg)->*f2)();
+		```cpp
+		void(Dialog::*f2)() = &Dialog::Close; // ok
+		Dialog dlg;
+		(dlg.*f2)(); // ok
+		(&(dlg)->*f2)();
+		```
 	- 4. c++17 invoke 함수 
-	```
 - [source 1_member_pointer](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/1_member_pointer.cpp)
 ```cpp
-	void(*f1)() = &foo;	// ok 
-	//void(*f2)() = &Dialog::Close; // error : 객체가 있어야 하기 때문
-	void(*f3)() = &Dialog::Close2; // ok
 
 	// 멤버함수를 가리키는 포인터 변수 만드는 모양
 	// pointer to member
