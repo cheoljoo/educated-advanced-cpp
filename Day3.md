@@ -286,15 +286,15 @@ shared_ptr<T> make_shared<T>(Types&& ... args)
 ---------
 
 ### 관리 객체가 가지는 4가지 
-- 참조계수  (strong count) : 객체 수명 관리
-- 삭제자
+- 1. 참조계수  (strong count) : 객체 수명 관리
+- 2. 삭제자
 ```cpp
 	//std::shared_ptr<void> p2(malloc(100), 삭제자함수);
 	std::shared_ptr<void> p2(malloc(100), foo);
 	std::shared_ptr<void> p3(malloc(100), [](void*p) { free(p); }   );
 ```
-- 객체 pointer
-- weak count : 관리 걕체 수명 관리 (weak pointer때문에) 
+- 3. 객체 pointer
+- 4. weak count : 관리 걕체 수명 관리 (weak pointer때문에) 
 	- weak count == 0 일때 관리 객체도 지운다.
 
 - [source 2_smart_pointer3 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/2_smart_pointer3.cpp)
@@ -390,7 +390,9 @@ shared_ptr<T> make_shared<T>(Types&& ... args)
 
 ---------
 
-### & & 이중 reference with typedef or using
+###  reference collapsing : 레퍼런스 붕괴
+- & & 이중 reference with typedef or using
+	- typedef / using / template 같은 것으로 정의 할때는 & & 사용가능하다. 
 - 단지 && && 만 &&
 ```cpp
 	using LREF = int&;
@@ -427,6 +429,9 @@ template<typename T> void f4(T&& a){}
 // f4<int>( 10 );
 // f4<int&>( n );
 // f4<int&&>( 10 );
+
+	f1(n);	// T : int&  f1(int&)
+	f1(10);	// T : int   f1(int&&)
 ```
 
 - 사용자 타입을 직접 전달하면 어떤 함수가 생성될지 생각해 봅시다.
@@ -448,14 +453,332 @@ template<typename T> void f4(T&& a){}
 
 ---------
 
-### & & 이중 reference with typedef or using
--  우선순위
-- [source 3_forwarding_reference4 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/3_forwarding_reference4.cpp)
+### lvalue와 rvalue를 모두 전달받는 함수 만들기
+-  lvalue와 rvalue를 모두 전달받는 함수 만들기
+	- 1. call by value : 복사본
+		- ```void f1(int a){}```
+	- 2. const lvalue reference (그러나, const로 못 바꾼다.)
+		- ```void f1(const int& a){}```
+	- 3.  2개의 함수 : 변경가능하도록 원본 그대로를 받고 싶다.
+		- ```void f1(int&  a){}```
+		- ```void f1(int&& a){}```
+	- 4. 2개의 함수를 자동생성
+		- T&& : forwarding reference(universal reference 라고도 한다.)
+		- int&& : rvalue reference
+		- ```template<typename T> void f1(T&& a) {} ```
+- [source 3_forwarding_reference5 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/3_forwarding_reference5.cpp)
 
 
 ---------
 
-### & & 이중 reference with typedef or using
--  우선순위
-- [source 3_forwarding_reference4 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/3_forwarding_reference4.cpp)
+###  2개의 함수를 이용한 함수 전부 받아주기 방식 구현
+```cpp
+void foo(int&  arg){ std::cout << __PRETTY_FUNCTION__ << std::endl; }
+void foo(int&& arg){ std::cout << __PRETTY_FUNCTION__ << std::endl; }
+
+//void forwarding(const int& n){ foo(n); }
+//const도 안된다. 해결책은 함수 2개
+void forwarding(int& n){ foo(n); }
+void forwarding(int&& n){ 
+	// main에서 10(rvalue)를 보냈는데
+	// int&& n = 10으로 받으면서 lvalue가 되었다.
+	// 즉 , value의 특성이 변경되었다.
+	// 원래 rvalue로 캐스팅해서 전달해야 foo(int&&)이 수행된다. 
+	foo( static_cast<int&&>(n) ); 
+}
+```
+
+- [source 3_forwarding_reference6 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/3_forwarding_reference6.cpp)
+
+
+---------
+
+### template으로 변환을 하자
+- 1. 함수 인자를 T&& 로 받아서
+- 2. 다른 곳에 보낼때는 std::forward<T>(arg)로 묶어서 전달
+```cpp
+// void forwarding(int& n){ foo( static_cast<int&>(n) ); }
+// void forwarding(int&& n){ foo( static_cast<int&&>(n) ); }
+
+template<typename T>
+void forwarding(T&& n)
+{ 
+	//foo( static_cast<T&&>(n) );  
+	foo( std::forward<T>(n) ); 	// forward안에서 위처럼 캐스팅
+}
+// Charles : T T 일때는 모두 int&&으로 나온다.
+// 10 => T : int   T&& : int&&
+// n  => T : int&  T&& : int&
+```
+- [source 3_forwarding_reference7 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/3_forwarding_reference7.cpp)
+
+
+---------
+
+### example: make_shared
+```cpp
+template<typename T,typename ARG>
+void make_shared(ARG&& arg)
+{
+	void *p = operator new(sizeof(T) );
+	new(p) T(std::forward<ARG>(arg));
+}
+```
+- [source 3_forwarding_reference8 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/3_forwarding_reference8.cpp)
+
+
+---------
+
+### forwarding reference
+- forwarding reference일까요?
+	- class 가  template인 것은 의미가 없다.
+	- 함수가 template이면서 T&& 으로 될때 forwarding reference 입니다.
+```cpp
+template<typename T> class Test
+{
+public:
+	// 아래 코드는 forwarding reference일까요?
+	// 아닙니다.
+	// 클래스가 템플릿이지 함수 자체가 템플릿이 아닙니다.
+	// 클래스 생성시 이미 T 타입이 결정됩니다. 
+	// 그래서 , forwarding reference가 아닙니다. 
+	void foo(T&& arg){}
+
+	// 아래 코드가 forwarding reference 입니다.
+	template<typename U> void goo(U&& arg) {}
+};
+```
+- [source 3_forwarding_reference9 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/3_forwarding_reference9.cpp)
+
+
+---------
+### 생성자 모양
+- 생성자 모양 1. call by value
+	- ```pair(T a , U b) : first(a) , second(b) {}```
+
+- 생성자 모양 2. non const lvalue reference
+	- ```pair(T& a , U& b) : first(a) , second(b) {}```
+
+- 생성자 모양 3. const lvalue reference
+	- ```pair(const T& a , const U& b) : first(a) , second(b) {}```
+		- ** 모든 참조는 const 입니다. **
+		- pair<int& 을 주면
+		- 뒤에 const U&을 할때 int&이 자동으로 const를 포함하므로
+		- const U&의 const가 사라집니다.  
+		- 왜냐면 &자체가 const를 쓰지 않아도 의미를 가지고 있기 때문입니다.
+		- [source reference2 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/reference2.cpp)
+```cpp
+	int& r = n;   // r이 한번 set되면 가리키는 곳은 절대 바뀌면 안된다. 
+			// 그러므로 int& const r = n; 이 되는 것이다.
+			// 그래서 위에서 모든 참조는 const라고 하는 것이다. 
+
+	template<typename T> void goo(T const a)
+	goo<int&>(&n);	// goo( int& const&)
+			// 모든 참조는 const 입니다. 따라서  const는 빠집니다. 
+			// goo(int& &) 가
+			// goo(int &)가 됩니다. 
+```
+
+- 생성자 모양 4 : C++11 이후 스타일
+	- ```template<typename A , typename B> pair(A&& a,B&& b) : first(std::forward<A>(a)) , second(std::forward<B>(b)){} ```
+
+- call by value 일때 type deduction 할때는 const가 사라진다. 
+- example : pair (2개의 값을 보관하는 구조)
+- [source 3_forwarding_reference10 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/3_forwarding_reference10.cpp)
+
+
+---------
+
+### forwarding reference 기본 template 
+-  forwarding reference로만 받아야 하는 이유
+	- lamda 식은 rvalue
+	- mutable을 붙인 lamda식은 비상수 멤버 함수로 const로 못 받음. 
+```cpp
+template<typename T> void foo(T&& f)
+{
+	std::forward<T>(f)();
+}
+```
+
+- lamda 사용 예
+```cpp
+	// 람다표현식은 rvalue 입니다. 
+	foo([](){ std::cout << "lamba" << std::endl; } ); 	// ok
+	// mutable 람다표현식 : () 연산자 함수를 비상수 멤버 함수로 해달라는 의미
+	// 그러므로 const로 받을수는 없다. 
+	foo([]() mutable { std::cout << "mutable lamba" << std::endl; } ); 
+```
+
+- [source 3_forwarding_reference11 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/3_forwarding_reference11.cpp)
+
+
+---------
+
+### lvalue rvalue를 위한 member 함수 선언
+```cpp
+struct Test
+{
+	// lvalue 객체에서만 부를수 있다. 
+	void foo() & {
+		std::cout << __PRETTY_FUNCTION__ << std::endl;
+	}
+
+	// rvalue 객체에서만 부를수 있다. 
+	void foo() && {
+		std::cout << __PRETTY_FUNCTION__ << std::endl;
+	}
+};
+
+	Test().foo();	// foo() &&
+```
+- [source 3_forwarding_reference12 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/3_forwarding_reference12.cpp)
+
+
+---------
+
+## const 
+
+### const 의 위치에 따른 의미
+-  pointer가 아닐때는 위치에 상관없이 같은 의미
+```cpp
+	const int c1 = 10;
+	int const c2 = 10;  // 이 2개는 같다. pointer가 아닐때는 같다.
+	// pointer를 사용할때만 * 앞뒤 에 const를 붙이는 의미가 달라진다.
+```
+
+-  pointer 와 같이 사용시는 위치에 따라 다른 의미를 가진다. 
+```cpp
+	virtual void foo(const int* a) override    // compile시 error가 있었을 것임.
+	virtual void foo(int* const a)		// 보통 a가 변하지 않게 하기 위한 것으로 이것을 사용해야 한다. 
+
+template<typename T> class Base
+{
+public:
+	// a는 const 입니다. 
+	virtual void foo(T const a)	// <== 이렇게 사용하는 것을 기본으로 
+	{
+		std::cout << "Baee foo" << std::endl;
+	}
+};
+```
+- [source reference ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/reference.cpp)
+
+
+---------
+
+## temporary : 임시객체
+
+### 객체의 종류
+- 이름 있는 객체 Point p1(1,2);
+- 임시객체 : unnamed object 
+```cpp
+	Point(1,2);  // 임시객체. unnamed object
+		// 자기를 만든 문장의 끝에서 파괴
+	Point(1,2) , std::cout << "X" << std::endl;
+	Point&& r = Point(1,2);
+
+```
+
+- [source 4_temporary1 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/4_temporary1.cpp)
+
+
+---------
+
+### 임시객체의 특징
+- 임시객체는 왼쪽에 올수 없다. (rvalue)
+- rvalue는 주소를 구할수 없다. (&rvalue : error)
+```cpp
+	Point pt(0,0);
+	pt.x = 10; // ok
+
+	Point(0,0).x = 10; //  임시객체는 왼쪽에 올수 없다. 
+			  // 임시객체는 rvalue이다. 
+
+	Point* p1 = &pt; 		// ok 
+	Point* p2 = &Point(0,0);	// error. rvalue는 주소를 구할수 없다. 
+
+	Point& p1 = pt;			// ok 
+	Point& p2 = Point(0,0);		// error . 이렇게 해도 수명 연장이 되지 않는다. 
+			// &는 lvalue <- rvalue 은 안된다.
+
+	// const lvalue reference는 lvalue와 rvalue를 모두 가리킨다.
+	const Point& r3 = Point(0,0);		// 수명도 연장된다. 
+	r3.x = 10 // error  : 상수성이 추가됨.
+
+	Point&& r4 = Point(0,0);
+	r4.x = 10; // ok
+```
+- [source 4_temporary2 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/4_temporary2.cpp)
+
+
+---------
+
+### 임시객체 사용예
+```cpp
+	// 함수 인자로 임시 객체를 전달하는 경우가 많다. **
+	foo(Point(1,2));
+
+	goo(std::is_pointer<T>());	// 이렇게 임시객체 사용
+```
+- [source 4_temporary3 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/4_temporary3.cpp)
+
+
+---------
+
+### return by value
+- call by value : 복사본이 생성
+- return by value : 복사본 생성
+	- 리턴용 임시객체 생성 ``` Point goo() { return pt; } ```
+- return by reference
+	- 임시객체를 만들지 말라는 의도 ```Point& hoo() { return pt; }``` 
+```cpp
+Point pt(0,0);
+// call by value : 복사본이 생성
+void foo(Point p){}
+// return by value : 복사본 생성
+// 리턴용 임시객체 생성
+Point goo() { return pt; }
+Point& hoo() { return pt; }	// 임시객체를 만들지 말라는 의도
+	goo().x = 10;  // error : return value이므로 임시객체
+	hoo().x = 10; // ok..
+```
+- [source 4_temporary4 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/4_temporary4.cpp)
+
+
+---------
+
+### 참조 캐스팅
+- 값 캐스팅 : 임시객체 생성
+- 참조 캐스팅 : 임시객체 생성 안 함.
+```cpp
+	static_cast<Base>(d).value = 100;	// error
+	static_cast<Base&>(d).value = 100;	// ok
+```
+- [source 4_temporary5 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/4_temporary5.cpp)
+
+
+---------
+
+### 복사 생성자 모양 
+- 1 . call by value
+	- 복사 생성자를 무한히 호출하는 표현 - error
+	- ```Point(Point p){} // Point p = p1``` 인자를 부르는데 , 또 부른다.  무한루프므로 error
+- 2. 참조 사용
+	- rvalue를 받을수 없다. 즉 , 값을 반환하는 함수의 반환값을 받을수 없다.
+	- ```Point(Point& p){}	// Point& p = p1```
+- 3. const lvalue reference
+	- lvalue 와 rvalue를 모두 받을수 있다. 
+```cpp
+	Point(const Point& p) {
+		std::cout << "lvalue 일대 복사 생성자"  << std::endl;
+	}
+	Point(Point&& p) {
+		std::cout << "rvalue일때. Move 생성자"  << std::endl;
+	}
+```
+
+- [source 4_temporary6 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/4_temporary6.cpp)
+
+---------
+
 
