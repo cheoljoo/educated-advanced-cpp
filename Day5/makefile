@@ -304,4 +304,27 @@ tuple_size:
 6_unique_ptr11:
 	g++ -std=c++11 6_unique_ptr11.cpp -o a
 	./a
-all: 6_unique_ptr9
+1_checked_delete:
+	g++ -std=c++11 1_checked_delete.cpp -o a
+	./a
+2_explicit:
+	g++ -std=c++11 2_explicit.cpp -o a
+	./a
+2_explicit2:
+	g++ -std=c++11 2_explicit2.cpp -o a
+	./a
+2_explicit3:
+	g++ -std=c++11 2_explicit3.cpp -o a
+	./a
+2_explicit4:
+	g++ -std=c++11 2_explicit4.cpp -o a
+	./a
+3_make:
+	#compile check
+	g++ -std=c++11 3_make.cpp -o a
+	./a
+3_make2:
+	#compile check
+	g++ -std=c++11 3_make2.cpp -o a
+	./a
+all: 3_make2
