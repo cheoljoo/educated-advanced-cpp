@@ -221,9 +221,21 @@ concept1:
 	g++ -std=c++11 3_function_object2.cpp -o a -fno-elide-constructors
 	./a
 3_function_object3:
-	g++ -std=c++11 3_function_object3.cpp  -S -g -fverbose-asm
+	#g++ -std=c++11 3_function_object3.cpp  -S -g -fverbose-asm
 	as -alhnd 3_function_object3.s > 3_function_object3.list
 	g++ -g -O -Wa,-aslh 3_function_object3.cpp > 3_function_object3.txt
 	g++ -std=c++11 3_function_object3.cpp -o a
 	./a
-all: 3_function_object3
+3_function_object4:
+	g++ -std=c++11 3_function_object4.cpp -o a
+	./a
+4_unique_ptr1:
+	g++ -std=c++11 4_unique_ptr1.cpp -o a
+	./a
+4_unique_ptr2:
+	g++ -std=c++11 4_unique_ptr2.cpp -o a
+	./a
+4_unique_ptr3:
+	g++ -std=c++11 4_unique_ptr3.cpp -o a
+	./a
+all: 4_unique_ptr3
