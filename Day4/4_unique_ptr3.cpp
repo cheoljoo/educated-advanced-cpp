@@ -64,8 +64,8 @@ int main()
 	// 	확장성은 shared_ptr이 더 좋다.
 	// unique_ptr은 p1,p2가 다른 type이 되므로 같은 container 에 넣을수 없다. 
 	//  그러나 , unique_ptr이 성능은 더 좋다. 
-	std::shared_ptr<int> sp1(new int);
-	std::shared_ptr<int> sp2(new int, foo);
+	//std::shared_ptr<int> sp1(new int);
+	//std::shared_ptr<int> sp2(new int, foo);
 
 	//unique_ptr<void,Freer> p2(malloc(100));
 	//	void일때는 operator*()에서 에러가 난다
