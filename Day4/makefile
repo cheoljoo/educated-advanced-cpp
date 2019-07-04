@@ -181,4 +181,49 @@ reference2:
 4_temporary6:
 	g++ -std=c++11 4_temporary6.cpp -o a -fno-elide-constructors
 	./a
-all: 4_temporary6
+1_EMPTY1:
+	g++ -std=c++11 1_EMPTY1.cpp -o a -fno-elide-constructors
+	./a
+1_EMPTY2:
+	g++ -std=c++11 1_EMPTY2.cpp -o a -fno-elide-constructors
+	./a
+1_EMPTY3:
+	g++ -std=c++11 1_EMPTY3.cpp -o a -fno-elide-constructors
+	./a
+1_EMPTY4:
+	g++ -std=c++11 1_EMPTY4.cpp -o a -fno-elide-constructors
+	./a
+1_EMPTY5:
+	g++ -std=c++11 1_EMPTY5.cpp -o a -fno-elide-constructors
+	./a
+1_EMPTY6:
+	g++ -std=c++11 1_EMPTY6.cpp -o a -fno-elide-constructors
+	./a
+1_EMPTY7:
+	g++ -std=c++11 1_EMPTY7.cpp -o a -fno-elide-constructors
+	./a
+concept1:
+	g++ -fconcepts -std=c++17 concept1.cpp -o a -fno-elide-constructors
+	./a
+2_EBCO:
+	g++ -std=c++11 2_EBCO.cpp -o a -fno-elide-constructors
+	./a
+2_EBCO2:
+	g++ -std=c++11 2_EBCO2.cpp -o a -fno-elide-constructors
+	./a
+2_EBCO3:
+	g++ -std=c++11 2_EBCO3.cpp -o a -fno-elide-constructors
+	./a
+3_function_object1:
+	g++ -std=c++11 3_function_object1.cpp -o a -fno-elide-constructors
+	./a
+3_function_object2:
+	g++ -std=c++11 3_function_object2.cpp -o a -fno-elide-constructors
+	./a
+3_function_object3:
+	g++ -std=c++11 3_function_object3.cpp  -S -g -fverbose-asm
+	as -alhnd 3_function_object3.s > 3_function_object3.list
+	g++ -g -O -Wa,-aslh 3_function_object3.cpp > 3_function_object3.txt
+	g++ -std=c++11 3_function_object3.cpp -o a
+	./a
+all: 3_function_object3
