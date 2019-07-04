@@ -4,6 +4,13 @@
 
 ------------
 
+## 대입연산자 vs 생성자   및 복사 vs move (C++11) 구분
+- A a ; 디폴트 생성자
+- A a1 = a ; 복사 생성자
+- A a2 = std::move(a) ;  move 생성자
+- b1 = a ; 복사 대입연산자
+- b2 = std::move(a);  move 대입연산자
+
 ## Empty
 
 ### Empty class 
