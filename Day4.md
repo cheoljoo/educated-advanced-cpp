@@ -981,12 +981,12 @@ int main()
     Test data;
 
     obj.setData(data);  
-        // setter 2. 복사 대입 1회
-        // setter 3. 복사 생성 1회 , move 대입 1회
+        // setter 2. 복사 대입연산자 1회
+        // setter 3. 복사 생성자 1회 , move 대입연산자 1회
 
     obj.setData(std::move(data)); 
-        // setter 2. move 대입 1회
-        // setter 3. move 생성 1회 , move 대입 1회
+        // setter 2. move 대입연산자 1회
+        // setter 3. move 생성자 1회 , move 대입 1회
 }
 ```
 
