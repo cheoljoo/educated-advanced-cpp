@@ -44,6 +44,15 @@ protected:
 1. [Day4](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day4.md)
 1. [Day5](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5.md)
 
+## g++ version
+- C++11  -std=c++11
+    - g++ (Ubuntu 4.8.5-2ubuntu1~14.04.1) 4.8.5
+- C++17  -std=c++17   
+    - g++ (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0
+
+## makefile
+- Day 마다 makefile이 있습니다.  
+- Day5에는 컴파일한 모든 내용이 들어있으니 참조하십시요.
 
 --------
 
