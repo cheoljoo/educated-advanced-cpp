@@ -238,4 +238,70 @@ concept1:
 4_unique_ptr3:
 	g++ -std=c++11 4_unique_ptr3.cpp -o a
 	./a
-all: 4_unique_ptr3
+4_unique_ptr4:
+	g++ -std=c++11 4_unique_ptr4.cpp -o a
+	./a
+4_unique_ptr5:
+	g++ -std=c++11 4_unique_ptr5.cpp -o a
+	./a
+4_unique_ptr6:
+	g++ -std=c++11 4_unique_ptr6.cpp -o a
+	./a
+4_unique_ptr7:
+	g++ -std=c++11 4_unique_ptr7.cpp -o a
+	./a
+4_unique_ptr8:
+	g++ -std=c++17 4_unique_ptr8.cpp -o a
+	./a
+tuple_size:
+	g++ -std=c++11 tuple_size.cpp -o a
+	./a
+5_move1:
+	g++ -std=c++11 5_move1.cpp -o a
+	./a
+5_move2:
+	g++ -std=c++11 5_move2.cpp -o a
+	./a
+5_move3:
+	g++ -std=c++11 5_move3.cpp -o a
+	./a
+5_move4:
+	g++ -std=c++11 5_move4.cpp -o a
+	./a
+5_move5:
+	g++ -std=c++11 5_move5.cpp -o a
+	./a
+5_move6:
+	g++ -std=c++11 5_move6.cpp -o a
+	./a
+5_move7:
+	g++ -std=c++11 5_move7.cpp -o a
+	./a
+5_move8:
+	g++ -std=c++11 5_move8.cpp -o a
+	./a
+5_move9:
+	g++ -std=c++11 5_move9.cpp -o a
+	./a
+5_move10:
+	g++ -std=c++11 5_move10.cpp -o a
+	./a
+5_move11:
+	g++ -std=c++11 5_move11.cpp -o a
+	./a
+5_move12:
+	g++ -std=c++11 5_move12.cpp -o a
+	./a
+5_move13:
+	g++ -std=c++11 5_move13.cpp -o a
+	./a
+6_unique_ptr9:
+	g++ -std=c++11 6_unique_ptr9.cpp -o a
+	./a
+6_unique_ptr10:
+	g++ -std=c++11 6_unique_ptr10.cpp -o a
+	./a
+6_unique_ptr11:
+	g++ -std=c++11 6_unique_ptr11.cpp -o a
+	./a
+all: 6_unique_ptr9

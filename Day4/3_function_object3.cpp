@@ -31,7 +31,7 @@ int main()
 {
 	Plus p;
 	foo(Add); 	// 함수 포인터 전달 foo( int (*f)(int, int) )
-		// f(12)에서는 Add 주소를 주므로 inline 치환될수 없다. 
+		// f(1,2)에서는 Add 주소를 주므로 inline 치환될수 없다. 
 		// 주소만 넘기므로 , 그 주소를 받고는 Add가 뭔지는 알수 없다.  compile time에 주소만 알고 있음. 
 		// assembler로 보자. makefile안에 넣어둠.
 		//

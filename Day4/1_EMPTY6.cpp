@@ -54,7 +54,7 @@ void advance_imp(T& p , int n , std::input_iterator_tag) // input_iterator_tag �
 }
 
 
-// 반족자의 형태
+// 반복자의 형태
 // 1. 클래스로 만들어진 객체 형태
 // 2. raw pointer
 // 위의 2개의 차이점을 해결하는 도구
@@ -87,7 +87,7 @@ int main()
 	//auto p = v.begin();	// v가 배열이면 error
 	auto p = std::begin(v);  // v가 배열이어도 ok
 
-	std::advance(p,3);   
+	advance(p,3);   
 }
 
 /*

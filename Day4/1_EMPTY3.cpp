@@ -41,7 +41,7 @@ int main()
 		// find 알고리즘의 1,2번째 인자는 반복자 입니다.
 		// 최소 요구 조건은 무엇일까요? 입력 반복자
 		// 5가지 종류중 골라 보세요
-	std::reverse(s.begin() , s.end() ); // 최소 조건 :  양방향 반복자 (--)
+	// std::reverse(s.begin() , s.end() ); // 최소 조건 :  양방향 반복자 (--)
 		// 현재 lotto645 에서는 compile error : std에서 지원하지 않는 함수
 	//std::sort(s.begin() , s.end()); // quick sort
 		// 임의 접근 반복자 => 반을 잘라야 한다. (-)

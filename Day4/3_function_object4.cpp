@@ -1,5 +1,5 @@
 /*
-- lamba expression = 함수 객체 + 임시 객체
+- lambda expression = 함수 객체 + 임시 객체
 	- default 생성자는 없다.
 	- 복사 생성자는 있다.
 - cppreference.com
@@ -35,7 +35,7 @@ int main()
 	
 
 	[](int a , int b){return a+b; }(1,2); 
-		// lamba임시객체(1,2)
+		// lambda임시객체(1,2)
 	
 	auto f = [](int a , int b){return a+b; }; 
 	f(1,2);
