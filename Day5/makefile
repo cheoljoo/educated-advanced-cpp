@@ -320,11 +320,9 @@ tuple_size:
 	g++ -std=c++11 2_explicit4.cpp -o a
 	./a
 3_make:
-	#compile check
 	g++ -std=c++11 3_make.cpp -o a
 	./a
 3_make2:
-	#compile check
-	g++ -std=c++11 3_make2.cpp -o a
+	g++ -std=c++17 3_make2.cpp -o a
 	./a
-all: 3_make2
+all: 3_make

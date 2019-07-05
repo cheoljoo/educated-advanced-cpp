@@ -32,6 +32,6 @@ int main()
     goo(make_unique<Point>(1,2) , foo() );
     // goo(std::make_unique<Point>(1,2) , foo() );
 
-    //std::unique_ptr<Point> up = std::make_unique<Point>(1,2);
+    std::unique_ptr<Point> up = std::make_unique<Point>(1,2);
 
 }
