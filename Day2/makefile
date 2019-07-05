@@ -104,6 +104,7 @@ partially_specialization:
 	g++ -std=c++17 12_member_detect5.cpp -o a
 	./a
 12_member_detect6:
+	# need compile
 	g++ -std=c++17 12_member_detect6.cpp -o a
 	./a
 memfun4:

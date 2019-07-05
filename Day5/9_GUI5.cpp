@@ -1,4 +1,8 @@
 /*
+- MACRO를 이용하여 바꾼다.
+- https://docs.wxwidgets.org/3.0/overview_events.html
+- 가상 함수 테이블 때문에 메모리 사용량이 많아져서
+- MFC 팀에서 가상함수 안 쓰기 위해서 이렇게 MACRO로 고쳤다.
 */
 
 #include <iostream>
@@ -61,22 +65,37 @@ std::map<int,Window*> Window::this_map;
 
 // -----------------------------
 
+#define DECLEARE_EVENT_MAP() \
+    virtual MSG_ENTRY* GetMessageEntry() override;
+
+// 함수 구현을 위한 매크로 (class 외부 구현) 
+#define BEGIN_EVENT_MAP(classname) \
+    MSG_ENTRY* classname::GetMessageEntry() \ 
+    { \ 
+        using HANDLER = void(Window::*)(); \ 
+        static MSG_ENTRY arr[] = {  
+
+#define ADD_EVENT(message,function) \ 
+            {message, static_cast<HANDLER>(function) },
+
+#define  END_EVENT_MAP \
+            {0,0}   \
+        }; \
+        return arr; \
+    }
+
 calss MyWindow : public Window
 {
 public:
-    virtual MSG_ENTRY* GetMessageEntry() override
-    {
-        using HANDLER = void(Window::*)();
-        static MSG_ENTRY arr[] = {
-            {WM_LBUTTONDOWN, static_cast<HANDLER>(&MyWindow::OnLButton) },
-            {WM_KEYDOWN, static_cast<HANDLER>(&MyWindow::foo) },
-            {0,0}
-        };
-        return arr;
-    }
     void OnLButtonDown() { std::cout << "MyWindow LButtonDown" << std::endl; }
     void foo() { std::cout << "foo" << std::endl; }
+
+    DECLEARE_EVNET_MAP
 };
+BEGIN_EVENT_MAP(MyWindow)
+    ADD_EVENT(WM_LBUTTONDOWN, &MyWindow::OnLButton)
+    ADD_EVENT(WM_KEYDOWN, &MyWindow::foo)
+END_EVENT_MAP()
 
 int main()
 {

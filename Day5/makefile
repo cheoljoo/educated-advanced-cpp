@@ -388,4 +388,8 @@ reference:
 8_policy6:
 	g++ -std=c++11 8_policy6.cpp -o a
 	./a
-all: 8_policy6
+10_vector:
+	# need compile check
+	g++ -std=c++11 10_vector.cpp -o a
+	./a
+all: 10_vector
