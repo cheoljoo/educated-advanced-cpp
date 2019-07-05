@@ -19,7 +19,7 @@ struct Point
     ~Point(){ std::cout << __PRETTY_FUNCTION__ << std::endl; }
 };
 
-
+// copy example in cpprefrence.com
 template <class T>
 struct Mallocator {
   typedef T value_type;

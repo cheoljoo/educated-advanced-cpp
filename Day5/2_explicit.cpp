@@ -22,8 +22,8 @@ void foo(Vector v){} // Vector v = 10
 int main()
 {
     Vector v1(10);      // direct initialization : default 생성자
-    Vector v2 = 10;     // copy initialization : 복사 생성자
-    Vector v3{10};      //  direct
+    Vector v2 = 10;     // error : explicit가 아니면 성공 : copy initialization : 복사 생성자
+    Vector v3{10};      // direct
 
     foo(v1);    // ok
     foo(10);    // 복사 초기화가 일어나는 것으로 안되게 하는게 좋다.

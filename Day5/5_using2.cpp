@@ -43,6 +43,7 @@ int
 hoo(T a)
 {
     return 0;
+}
 
 int main()
 {

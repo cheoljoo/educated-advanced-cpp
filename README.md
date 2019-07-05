@@ -1,6 +1,8 @@
 1\.  [educated-advanced-cpp](#educated-advanced-cpp)  
 1.1\.  [학습할 open source](#학습할opensource)  
 1.2\.  [Each Day Link](#eachdaylink)  
+1.3\.  [g++ version](#g++version)  
+1.4\.  [makefile](#makefile)  
 2\.  [Day1](#day1)  
 2.1\.  [Casting](#casting)  
 2.1.1\.  [const는 syntatical한 것으로 c=10 , *p=20으로 나온다.](#const는syntatical한것으로c=10*p=20으로나온다.)  
@@ -112,45 +114,71 @@
 4.5.5\.  [참조 캐스팅](#참조캐스팅)  
 4.5.6\.  [복사 생성자 모양](#복사생성자모양)  
 5\.  [Day4](#day4)  
-5.1\.  [Empty](#empty)  
-5.1.1\.  [Empty class](#emptyclass)  
-5.1.2\.  [new로 memory할당  실패시  처리 방법](#new로memory할당실패시처리방법)  
-5.1.3\.  [STL 5가지 반복자 category](#stl5가지반복자category)  
-5.1.4\.  [std::advance 구현](#std::advance구현)  
-5.2\.  [EBCO : Empty Base Class Optimization](#ebco:emptybaseclassoptimization)  
-5.2.1\.  [Empty Base Class Optimization](#emptybaseclassoptimization)  
-5.2.2\.  [EBCO를 이용한 struct PAIR memory 줄이기 : PAIR(Empty,int>](#ebco를이용한structpairmemory줄이기:pairemptyint>)  
-5.2.3\.  [PAIR의 완벽한 처리 : PAIR<int,Empty> 도 처리](#pair의완벽한처리:pair<intempty>도처리)  
-5.3\.  [function object :구조체를 함수처럼 사용할수 있으면 함수 객체라고 한다.](#functionobject:구조체를함수처럼사용할수있으면함수객체라고한다.)  
-5.3.1\.  [function object : operator()](#functionobject:operator)  
-5.3.2\.  [operator()](#operator)  
-5.3.3\.  [인자로 함수 객체 전달시 compile time에 inline으로 치환](#인자로함수객체전달시compiletime에inline으로치환)  
-5.3.4\.  [lambda expression](#lambdaexpression)  
-5.4\.  [unique_ptr](#unique_ptr)  
-5.4.1\.  [smart pointer](#smartpointer-1)  
-5.4.2\.  [template unique_ptr & 복사 생성자 / 대입 연산자](#templateunique_ptr&복사생성자/대입연산자)  
-5.4.3\.  [memory 해제 함수](#memory해제함수)  
-5.4.4\.  [삭제자를 보관](#삭제자를보관)  
-5.4.5\.  [삭제자와 type을 PAIR에 보관](#삭제자와type을pair에보관)  
-5.4.6\.  [배열도 처리](#배열도처리)  
-5.4.7\.  [std로 처리](#std로처리)  
-5.4.8\.  [move와 forward로 변경](#move와forward로변경)  
-5.5\.  [move](#move)  
-5.5.1\.  [깊은 복사](#깊은복사)  
-5.6\.  [### rvalue 얕은 복사 + move생성자](####rvalue얕은복사+move생성자)  
-5.6.1\.  [std::move 사용 1](#std::move사용1)  
-5.6.2\.  [class 생성자의 자원 할당 유무에 따른 준비 과정](#class생성자의자원할당유무에따른준비과정)  
-5.6.3\.  [move생성자에서는 모든 멤버를 반드시 move로 옮기자](#move생성자에서는모든멤버를반드시move로옮기자)  
-5.6.4\.  [noexcept](#noexcept)  
-5.6.5\.  [example : swap](#example:swap)  
-5.6.6\.  [복사 / move 생성자 관련 컴파일러의 처리 방식](#복사/move생성자관련컴파일러의처리방식)  
-5.6.7\.  [std::move 사용 2](#std::move사용2)  
-5.6.8\.  [setter](#setter)  
-5.6.9\.  [vector push_back](#vectorpush_back)  
+5.1\.  [대입연산자 vs 생성자   및 복사 vs move (C++11) 구분](#대입연산자vs생성자및복사vsmovec++11구분)  
+5.2\.  [Empty](#empty)  
+5.2.1\.  [Empty class](#emptyclass)  
+5.2.2\.  [new로 memory할당  실패시  처리 방법](#new로memory할당실패시처리방법)  
+5.2.3\.  [STL 5가지 반복자 category](#stl5가지반복자category)  
+5.2.4\.  [std::advance 구현](#std::advance구현)  
+5.3\.  [EBCO : Empty Base Class Optimization](#ebco:emptybaseclassoptimization)  
+5.3.1\.  [Empty Base Class Optimization](#emptybaseclassoptimization)  
+5.3.2\.  [EBCO를 이용한 struct PAIR memory 줄이기 : PAIR(Empty,int>](#ebco를이용한structpairmemory줄이기:pairemptyint>)  
+5.3.3\.  [PAIR의 완벽한 처리 : PAIR<int,Empty> 도 처리](#pair의완벽한처리:pair<intempty>도처리)  
+5.4\.  [function object :구조체를 함수처럼 사용할수 있으면 함수 객체라고 한다.](#functionobject:구조체를함수처럼사용할수있으면함수객체라고한다.)  
+5.4.1\.  [function object : operator()](#functionobject:operator)  
+5.4.2\.  [operator()](#operator)  
+5.4.3\.  [인자로 함수 객체 전달시 compile time에 inline으로 치환](#인자로함수객체전달시compiletime에inline으로치환)  
+5.4.4\.  [lambda expression](#lambdaexpression)  
+5.5\.  [unique_ptr](#unique_ptr)  
+5.5.1\.  [smart pointer](#smartpointer-1)  
+5.5.2\.  [template unique_ptr & 복사 생성자 / 대입 연산자](#templateunique_ptr&복사생성자/대입연산자)  
+5.5.3\.  [memory 해제 함수](#memory해제함수)  
+5.5.4\.  [삭제자를 보관](#삭제자를보관)  
+5.5.5\.  [삭제자와 type을 PAIR에 보관](#삭제자와type을pair에보관)  
+5.5.6\.  [배열도 처리](#배열도처리)  
+5.5.7\.  [std로 처리](#std로처리)  
+5.5.8\.  [move와 forward로 변경](#move와forward로변경)  
+5.6\.  [move](#move)  
+5.6.1\.  [깊은 복사](#깊은복사)  
+5.7\.  [### rvalue 얕은 복사 + move생성자](####rvalue얕은복사+move생성자)  
+5.7.1\.  [std::move 사용 1](#std::move사용1)  
+5.7.2\.  [class 생성자의 자원 할당 유무에 따른 준비 과정](#class생성자의자원할당유무에따른준비과정)  
+5.7.3\.  [move생성자에서는 모든 멤버를 반드시 move로 옮기자](#move생성자에서는모든멤버를반드시move로옮기자)  
+5.7.4\.  [noexcept](#noexcept)  
+5.7.5\.  [example : swap](#example:swap)  
+5.7.6\.  [복사 / move 생성자 관련 컴파일러의 처리 방식](#복사/move생성자관련컴파일러의처리방식)  
+5.7.7\.  [std::move 사용 2](#std::move사용2)  
+5.7.8\.  [setter](#setter)  
+5.7.9\.  [vector push_back](#vectorpush_back)  
 6\.  [Day5](#day5)  
-6.1\.  [](#)  
-6.1.1\.  [](#-1)  
-6.1.2\.  [](#-2)  
+6.1\.  [checked delete](#checkeddelete)  
+6.1.1\.  [checked delete](#checkeddelete-1)  
+6.2\.  [explicit](#explicit)  
+6.2.1\.  [직접 초기화](#직접초기화)  
+6.2.2\.  [container에 따른 explicit 유무](#container에따른explicit유무)  
+6.2.3\.  [initializer_list : 메모리에 연속적으로 놓은 동일 타입이 객체를 관리하는 도구](#initializer_list:메모리에연속적으로놓은동일타입이객체를관리하는도구)  
+6.2.4\.  [initializer_list 생성자가 없으면 , 복사 생성자로  (갯수가 같을때만)](#initializer_list생성자가없으면복사생성자로갯수가같을때만)  
+6.3\.  [make](#make)  
+6.3.1\.  [안정성](#안정성)  
+6.3.2\.  [make_unique](#make_unique)  
+6.4\.  [coercion](#coercion)  
+6.4.1\.  [generic 복사생성자](#generic복사생성자)  
+6.5\.  [using](#using)  
+6.5.1\.  [is_poiner_v remove_pointer_t](#is_poiner_vremove_pointer_t)  
+6.5.2\.  [SFINAE ( enable_if_t )](#sfinaeenable_if_t)  
+6.6\.  [bind](#bind)  
+6.6.1\.  [bind : N항의 함수 인자를 고정해서 M(<N)항의 함수를 만드는 도구](#bind:n항의함수인자를고정해서m<n항의함수를만드는도구)  
+6.6.2\.  [인자의 수를 변경 가능](#인자의수를변경가능)  
+6.6.3\.  [bind는 인자를 넘길때 기본이 copy](#bind는인자를넘길때기본이copy)  
+6.6.4\.  [example : Button](#example:button)  
+6.7\.  [reference wrapper](#referencewrapper)  
+6.7.1\.  [reference_wrapper: 이동가능한 참조 - 변환연산자 : operator T&()](#reference_wrapper:이동가능한참조-변환연산자:operatort&)  
+6.7.2\.  [reference_wrapper의 helper 함수 : valuleForwarding](#reference_wrapper의helper함수:valuleforwarding)  
+6.8\.  [Policy Clone](#policyclone)  
+6.9\.  [### template 인자로 policy 결정](####template인자로policy결정)  
+6.9.1\.  [allocator  (cppreference.com)](#allocatorcppreference.com)  
+6.9.2\.  [allocator rebind](#allocatorrebind)  
+6.9.3\.  [policy Clone for allocator (ex. List<int> with Node)](#policycloneforallocatorex.list<int>withnode)  
 
 <a name="educated-advanced-cpp"></a>
 
@@ -204,6 +232,19 @@ protected:
 1. [Day4](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day4.md)
 1. [Day5](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5.md)
 
+<a name="g++version"></a>
+
+## 1.3\. g++ version
+- C++11  -std=c++11
+    - g++ (Ubuntu 4.8.5-2ubuntu1~14.04.1) 4.8.5
+- C++17  -std=c++17   
+    - g++ (Ubuntu 7.4.0-1ubuntu1~18.04.1) 7.4.0
+
+<a name="makefile"></a>
+
+## 1.4\. makefile
+- Day 마다 makefile이 있습니다.  
+- Day5에는 컴파일한 모든 내용이 들어있으니 참조하십시요.
 
 --------
 
@@ -2896,13 +2937,22 @@ Point& hoo() { return pt; }	// 임시객체를 만들지 말라는 의도
 
 ------------
 
+<a name="대입연산자vs생성자및복사vsmovec++11구분"></a>
+
+## 5.1\. 대입연산자 vs 생성자   및 복사 vs move (C++11) 구분
+- A a ; 디폴트 생성자
+- A a1 = a ; 복사 생성자
+- A a2 = std::move(a) ;  move 생성자
+- b1 = a ; 복사 대입연산자
+- b2 = std::move(a);  move 대입연산자
+
 <a name="empty"></a>
 
-## 5.1\. Empty
+## 5.2\. Empty
 
 <a name="emptyclass"></a>
 
-### 5.1.1\. Empty class 
+### 5.2.1\. Empty class 
 -  empty class : non static 멤버 데이터가 없는 클래스
     - static member는 있어도 됨.
     - 크기가 1로 정의함.
@@ -2925,7 +2975,7 @@ int main()
 
 <a name="new로memory할당실패시처리방법"></a>
 
-### 5.1.2\. new로 memory할당  실패시  처리 방법
+### 5.2.2\. new로 memory할당  실패시  처리 방법
 - new를 사용하면 operator new()가 호출됩니다.
 - new operator
     - 함수 오버로딩을 이용한다. 
@@ -2976,7 +3026,7 @@ void* operator new(size_t sz,nothrow_t)
 
 <a name="stl5가지반복자category"></a>
 
-### 5.1.3\. STL 5가지 반복자 category
+### 5.2.3\. STL 5가지 반복자 category
 - STL 5가지 반복자 category
 	1. 입력 반복자 : 입력 , ++
 		- ```struct input_iterator_tag {}; ```
@@ -3038,7 +3088,7 @@ void* operator new(size_t sz,nothrow_t)
 
 <a name="std::advance구현"></a>
 
-### 5.1.4\. std::advance 구현
+### 5.2.4\. std::advance 구현
 - std::advance(p,3)
 - p = p + 3 list / vector등 모두사용가능
     - vector에서는 +3
@@ -3132,7 +3182,7 @@ advance(T& p , int n)
 
 <a name="ebco:emptybaseclassoptimization"></a>
 
-## 5.2\. EBCO : Empty Base Class Optimization
+## 5.3\. EBCO : Empty Base Class Optimization
 - EBCO : Empty Base Class Optimization
 	- empty class가 기반 클래스가 되면 크기가 0으로 계산된다. 
 	- c++ 표준의 unique_ptr이 이것을 사용한다.
@@ -3140,7 +3190,7 @@ advance(T& p , int n)
  
 <a name="emptybaseclassoptimization"></a>
 
-### 5.2.1\. Empty Base Class Optimization
+### 5.3.1\. Empty Base Class Optimization
 - Empty가 상속이면 크기를 0으로 최적화 해준다.
 ```cpp
 class Empty {};
@@ -3159,7 +3209,7 @@ class BBB : public Empty
 
 <a name="ebco를이용한structpairmemory줄이기:pairemptyint>"></a>
 
-### 5.2.2\. EBCO를 이용한 struct PAIR memory 줄이기 : PAIR(Empty,int>
+### 5.3.2\. EBCO를 이용한 struct PAIR memory 줄이기 : PAIR(Empty,int>
 - 일반적으로 선언 : ```template<typename T, typename U> struct PAIR```
 - empty base class를 이용한 memory 줄이기 : 앞의 인자를 base class로 둔다
     - ``` template<typename T, typename U> struct PAIR : public T ```
@@ -3193,7 +3243,7 @@ template<typename T, typename U> struct PAIR : public T
 
 <a name="pair의완벽한처리:pair<intempty>도처리"></a>
 
-### 5.2.3\. PAIR의 완벽한 처리 : PAIR<int,Empty> 도 처리
+### 5.3.3\. PAIR의 완벽한 처리 : PAIR<int,Empty> 도 처리
 -  Empty일때만 상속으로 가게
 - PAIR<int,Empty> 처리 되게
 	- PAIR<int,Empty> p2;
@@ -3251,11 +3301,11 @@ template<typename T, typename U> struct PAIR<T,U,true> : public T
 
 <a name="functionobject:구조체를함수처럼사용할수있으면함수객체라고한다."></a>
 
-## 5.3\. function object :구조체를 함수처럼 사용할수 있으면 함수 객체라고 한다.
+## 5.4\. function object :구조체를 함수처럼 사용할수 있으면 함수 객체라고 한다.
 
 <a name="functionobject:operator"></a>
 
-###  5.3.1\. function object : operator()
+###  5.4.1\. function object : operator()
 - 구조체를 함수처럼 사용할수 있으면 함수 객체라고 한다.
 ```cpp
 int Add(int a , int b){ return a+b;}
@@ -3282,7 +3332,7 @@ int main()
 
 <a name="operator"></a>
 
-### 5.3.2\. operator()
+### 5.4.2\. operator()
 * operator()
 - 함수 객체의 장점 1. 상태를 가지는 함수
 	1. 일반 함수는 동작만 있고 상태는 가질수 없다.
@@ -3303,7 +3353,7 @@ struct Plus
 
 <a name="인자로함수객체전달시compiletime에inline으로치환"></a>
 
-### 5.3.3\. 인자로 함수 객체 전달시 compile time에 inline으로 치환
+### 5.4.3\. 인자로 함수 객체 전달시 compile time에 inline으로 치환
 - 함수 객체의 장점 2.
 	- 다른 함수의 인자로 전달되는 함수를 만들때
 	1. 일반함수를 보내면 다시 호출시 인라인 치환되지 못한다.
@@ -3338,7 +3388,7 @@ template<typename T> void foo(T f)
 
 <a name="lambdaexpression"></a>
 
-### 5.3.4\. lambda expression
+### 5.4.4\. lambda expression
 - lambda expression = 함수 객체 + 임시 객체
 	- default 생성자는 없다.
 	- 복사 생성자는 있다.
@@ -3383,11 +3433,11 @@ template<typename T> void foo(T f)
 
 <a name="unique_ptr"></a>
 
-## 5.4\. unique_ptr
+## 5.5\. unique_ptr
 
 <a name="smartpointer-1"></a>
 
-### 5.4.1\. smart pointer
+### 5.5.1\. smart pointer
 - 스마트 포인러를 만들어봅시다.
 - 핵심 : -> 와 *를 재정의하여 포인터 처럼 보이게 하는 것
 - 장점 : raw pointer가 아니라 객체이므로 자동소멸 / 자동 삭제 가능하다. 
@@ -3421,7 +3471,7 @@ int main()
 
 <a name="templateunique_ptr&복사생성자/대입연산자"></a>
 
-### 5.4.2\. template unique_ptr & 복사 생성자 / 대입 연산자 
+### 5.5.2\. template unique_ptr & 복사 생성자 / 대입 연산자 
 - p2 = p1처럼 쓰고 싶으면 , shared_ptr을 사용하라는 것이다.
 ```cpp
 template<typename T>
@@ -3457,7 +3507,7 @@ int main()
 
 <a name="memory해제함수"></a>
 
-### 5.4.3\. memory 해제 함수
+### 5.5.3\. memory 해제 함수
 - free : memory만 해제
 ```cpp
 struct Freer
@@ -3518,7 +3568,7 @@ public:
 
 <a name="삭제자를보관"></a>
 
-###  5.4.4\. 삭제자를 보관
+###  5.5.4\. 삭제자를 보관
 ```cpp
 class unique_ptr
 {
@@ -3533,7 +3583,7 @@ class unique_ptr
 
 <a name="삭제자와type을pair에보관"></a>
 
-###  5.4.5\. 삭제자와 type을 PAIR에 보관
+###  5.5.5\. 삭제자와 type을 PAIR에 보관
 - struct default_delete 가  empty class이므로 PAIR를 사용하여 memory를 절약하려는 것이다. 
 ```cpp
 class unique_ptr
@@ -3550,7 +3600,7 @@ class unique_ptr
 
 <a name="배열도처리"></a>
 
-### 5.4.6\. 배열도 처리
+### 5.5.6\. 배열도 처리
 - 아래 [] 추가
 ```cpp
 template<typename T> struct default_delete<T[]>
@@ -3584,7 +3634,7 @@ class unique_ptr< T[], D >
 
 <a name="std로처리"></a>
 
-### 5.4.7\. std로 처리
+### 5.5.7\. std로 처리
 ```cpp
 int main()
 {
@@ -3610,7 +3660,7 @@ int main()
 
 <a name="move와forward로변경"></a>
 
-### 5.4.8\. move와 forward로 변경 
+### 5.5.8\. move와 forward로 변경 
 - 이번 소스에서 변한 것 (2가지)
     1. 생성자가  변경 - forwarding reference 사용
         -  &&와는 std::forward<>() 
@@ -3652,11 +3702,11 @@ class unique_ptr
 
 <a name="move"></a>
 
-## 5.5\. move
+## 5.6\. move
 
 <a name="깊은복사"></a>
 
-### 5.5.1\. 깊은 복사
+### 5.6.1\. 깊은 복사
 - [source 5_move1 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day4/5_move1.cpp)
 
 
@@ -3664,7 +3714,7 @@ class unique_ptr
 
 <a name="###rvalue얕은복사+move생성자"></a>
 
-5.6\. ### rvalue 얕은 복사 + move생성자
+5.7\. ### rvalue 얕은 복사 + move생성자
 -  
 ```cpp
 class People
@@ -3697,7 +3747,7 @@ class People
 
 <a name="std::move사용1"></a>
 
-###  5.6.1\. std::move 사용 1
+###  5.7.1\. std::move 사용 1
 ```cpp
     std::string s1 = "hello";
     std::string s2 = std::move(s1);
@@ -3714,7 +3764,7 @@ class People
 
 <a name="class생성자의자원할당유무에따른준비과정"></a>
 
-###  5.6.2\. class 생성자의 자원 할당 유무에 따른 준비 과정
+###  5.7.2\. class 생성자의 자원 할당 유무에 따른 준비 과정
 - 클래스가 자원을 할당하지 않으면 - 소멸자가 없어도 된다. 
 - 클래스가 자원을 할당하면 3가지가 필요하다. rule of 3 (C++98)
     - 소멸자
@@ -3744,7 +3794,7 @@ class People
 
 <a name="move생성자에서는모든멤버를반드시move로옮기자"></a>
 
-### 5.6.3\. move생성자에서는 모든 멤버를 반드시 move로 옮기자
+### 5.7.3\. move생성자에서는 모든 멤버를 반드시 move로 옮기자
 ```cpp
     // move생성자에서는 모든 멤버를 반드시 move로 옮기자
     Test(Test&& t):data(t.data),s(std::move(t.s)){std::cout << __PRETTY_FUNCTION__ << std::endl; }
@@ -3763,7 +3813,7 @@ class People
 
 <a name="noexcept"></a>
 
-### 5.6.4\. noexcept
+### 5.7.4\. noexcept
 - noexcept 지시어 : 함수가 예외가 없음(있음)을 알리는 것
     - void foo() noexcept
     - void foo() noexcept(true)
@@ -3815,7 +3865,7 @@ class Test
 
 <a name="example:swap"></a>
 
-###  5.6.5\. example : swap
+###  5.7.5\. example : swap
 - move 와 알고리즘
 - move에서 알아야 하는 것
     1. 클래스 만들때 move 계열 함수 2개를 만드는 법
@@ -3840,7 +3890,7 @@ template <typename T> void Swap(T& a, T&b)
 
 <a name="복사/move생성자관련컴파일러의처리방식"></a>
 
-###  5.6.6\. 복사 / move 생성자 관련 컴파일러의 처리 방식
+###  5.7.6\. 복사 / move 생성자 관련 컴파일러의 처리 방식
 1. 사용자가 복사와 move를 모두 제공하지 않으면 컴파일러가 모두 제공해준다.
     - 복사 또는 move = delete하는 경우는 컴파일러가 자동으로 만들어주지 않는다.
 1. 사용자가 복사 계열 함수를 제공하면 컴파일러는 move 계열을 제공하지 않는다.
@@ -3865,7 +3915,7 @@ public:
 
 <a name="std::move사용2"></a>
 
-###  5.6.7\. std::move 사용 2
+###  5.7.7\. std::move 사용 2
 - const는 뭘해도 move안됨 
 ```cpp
 int main()
@@ -3890,7 +3940,7 @@ int main()
 
 <a name="setter"></a>
 
-### 5.6.8\. setter
+### 5.7.8\. setter
 -  setter 2번이 가장 좋은 방법이고  
 -  1개로 해결하려면 setter 4번으로 하면 됨
 ```cpp
@@ -3934,12 +3984,12 @@ int main()
     Test data;
 
     obj.setData(data);  
-        // setter 2. 복사 대입 1회
-        // setter 3. 복사 생성 1회 , move 대입 1회
+        // setter 2. 복사 대입연산자 1회
+        // setter 3. 복사 생성자 1회 , move 대입연산자 1회
 
     obj.setData(std::move(data)); 
-        // setter 2. move 대입 1회
-        // setter 3. move 생성 1회 , move 대입 1회
+        // setter 2. move 대입연산자 1회
+        // setter 3. move 생성자 1회 , move 대입 1회
 }
 ```
 
@@ -3950,7 +4000,7 @@ int main()
 
 <a name="vectorpush_back"></a>
 
-###  5.6.9\. vector push_back
+###  5.7.9\. vector push_back
 - 복사는 이후에도 계속 사용한다는 의미를 가진다.
 - std::move(data)는 이후에는 data는 사용하지 않겠다는 것을 의미한다.
 ```cpp
@@ -3977,28 +4027,685 @@ int main()
 
 # 6\. Day5
 
+- Modern C++ Design 책 - 안드레이 알렉산드레스큐
+    - visitor pattern  -> C++17 표준에 들어옴.
+
 ------------
 
-<a name=""></a>
+- 가능하면 const noexcept 을 많은 곳에 붙이자.
+- static_assert : compile time에 진행하므로 많아도 좋다. 
 
-6.1\. #6.1\. #6.1\.  6.1\. 
-6.1\. 
-<a name="-1"></a>
+<a name="checkeddelete"></a>
 
-6.1.1\. #6.1.1\. #6.1.1\. #6.1.1\.  6.1.1\. 
-6.1.1\. -  우선순위
+## 6.1\. checked delete
+
+<a name="checkeddelete-1"></a>
+
+###  6.1.1\. checked delete
+- 클래스 전방선언
+    -  완전한 선언이 없어도 포인터 변수는 만들수 있다. 
+    -  불완전한 타입 (incomplete type) : 소멸자가 불리지 않는다. 
+- 불완전한 type을 사용할때는 그냥 delete하면 안된다.
+    - 그래서 check하고 delete하자
+    - sizeof(A); A가 complete type일때만 크기를 구할수 있다. 이를 이용하여 check
+- 안드로이드 소스의 예전 버전에서 볼수 있던 코드
+    - ```enum{ type_must_be_complete = sizeof(Test) };```   최적화로 없애지 못하게
 ```cpp
+void foo(Test* p)
+{
+    //sizeof(Test);   // complete 타입만 크기를 구할수 있다.
+    static_assert( sizeof(Test) > 0 , "error, delete incomplete type");
+    delete p;
+}
 ```
-- [source 4_temporary1 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/4_temporary1.cpp)
+
+- [source 1_checked_delete  37 page ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/1_checked_delete.cpp)
 
 
 ---------
 
-<a name="-2"></a>
+<a name="explicit"></a>
 
-6.1.2\. #6.1.2\. #6.1.2\. #6.1.2\.  6.1.2\. 
-6.1.2\. -  우선순위
+## 6.2\. explicit
+
+<a name="직접초기화"></a>
+
+###  6.2.1\. 직접 초기화
+- explicit 생성자 : 복사 초기화를 사용할 수 없다. 
 ```cpp
+public:
+    explicit Vector(int sz){}
+
+int main()
+{
+    Vector v1(10);      // direct initialization : default 생성자
+    Vector v2 = 10;     // error : explicit가 아니면 성공 : copy initialization : 복사 생성자
+    Vector v3{10};      // direct
+
+    foo(v1);    // ok
+    foo(10);    // 복사 초기화가 일어나는 것으로 안되게 하는게 좋다.
+                // 생성자 만들때 explicit 사용
+                // error : explicit붙일때
+}
 ```
-- [source 4_temporary1 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day3/4_temporary1.cpp)
+
+- [source 2_explicit ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/2_explicit.cpp)
+
+
+---------
+
+<a name="container에따른explicit유무"></a>
+
+###  6.2.2\. container에 따른 explicit 유무
+```cpp
+int main()
+{
+    // string의 생성자는 explicit가 아니다.
+    std::string s1("hello");    // explicit이면 이것이 error
+    std::string s2 = "hello";   //  복사 초기화 // ok
+    // foo("hello"); // explicit생성자라면 error
+
+    // vector는 생성자가 explitit
+    std::vector<int> v1(10);    // 초기값이 아닌 크기. 10개짜리 vector
+    std::vector<int> v2 = 10; // error
+    std::vector<int> v3 {10 }; // 1개짜리 vector인데 초기값이 10
+    std::vector<int> v4 = { 10} ;  // ok
+ 
+    // c++ 표준 스마트 포인터는 모두 explicit
+    std::unique_ptr<int> p1(new int);
+    std::unique_ptr<int> p2 = new int;  // error
+}
+```
+
+- [source 2_explicit2 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/2_explicit2.cpp)
+
+
+---------
+
+<a name="initializer_list:메모리에연속적으로놓은동일타입이객체를관리하는도구"></a>
+
+### 6.2.3\. initializer_list : 메모리에 연속적으로 놓은 동일 타입이 객체를 관리하는 도구
+- stack에 연속적으로 놓여직 됨. VC++는 시작과 끝 주소만을 가짐
+```cpp
+void foo(std::initializer_list<int> e)
+{
+}
+int main()
+{
+    // initializer_list : 메모리에 연속적으로 놓은 동일 타입이 객체를 관리하는 도구
+    //          stack에 연속적으로 놓여직 됨. VC++는 시작과 끝 주소만을 가짐
+    std::initializer_list<int> s = {1,2,3,4,5,6,7};
+
+    foo(s);
+    foo({1,2,3,4,5,6,7});  // ok : 이게 가능하다.  이것때문에 initializer_list를 만듦
+
+    auto p = s.begin();
+    std::cout << *p << std::endl;
+}
+```
+
+- [source 2_explicit3 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/2_explicit3.cpp)
+
+
+---------
+
+<a name="initializer_list생성자가없으면복사생성자로갯수가같을때만"></a>
+
+### 6.2.4\. initializer_list 생성자가 없으면 , 복사 생성자로  (갯수가 같을때만) 
+```cpp
+class Vector
+{
+public:
+    explicit Vector(int size){}
+    explicit Vector(int size , int value)    // 1
+    {
+        cout << "1" << endl;
+    }
+    Vector(initializer_list<int> s) // 2 
+    {
+        cout << "2" << endl;
+    }
+};
+
+int main()
+{
+    Vector v4 = 10 ; // error
+    Vector v5 = {10} ; // ok
+
+    Vector v1(10,3);    // 10개를 3으로 초기화
+    Vector v2{10,3};    // 2번생성자가 없으면 1번 생성자으로 간다
+    Vector v2{10,3,1,2,3,4};
+}
+```
+
+- [source 2_explicit4 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/2_explicit4.cpp)
+
+
+---------
+
+<a name="make"></a>
+
+## 6.3\. make
+
+<a name="안정성"></a>
+
+### 6.3.1\. 안정성
+- 아래 한줄은 안전할까요? 아래처럼 실행되면 문제가 발생할수 있다.
+    1. new Point(1,2)
+    1. foo() => 여기서 예외가 나오면 1의 코드가 메모리 누수
+    1. unique_ptr 생성
+```cpp
+    goo( unique_ptr<Point>(new Point(1,2)) , foo()  );
+        // goo 안의 2개의 함수는 어떤게 먼저 수행될지 모름
+        // Point  -> foo -> unique_ptr을 하는데 , foo에서 문제 발생시 자원이 안전하지 않다. 
+```
+
+- [source 3_make ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/3_make.cpp)
+
+
+---------
+
+<a name="make_unique"></a>
+
+### 6.3.2\. make_unique
+```cpp
+// unique_ptr을 만드는 함수
+template<typename T,typename ... ARGS>
+std::unique_ptr<T> make_unique(ARGS&& ... args)
+{
+    return std::unique_ptr<T>(new T(std::forward<ARGS>(args)...));
+}
+```
+
+- [source 3_make2 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/3_make2.cpp)
+
+
+---------
+
+<a name="coercion"></a>
+
+## 6.4\. coercion
+- coercion
+    - int가 double로 변환되면 , Point<int>도 Point<double>로 변환되어야 한다. 
+
+<a name="generic복사생성자"></a>
+
+### 6.4.1\. generic 복사생성자
+```cpp
+template <typename T>
+class Point
+{
+    T x, y;
+public:
+    Point(T a=T(), T b=T()) : x(a),y(b){}
+
+    // 복사 생성자의 구현을 밖으로 뽑아보려함.
+    Point(const Point<U>& p) : x(p.x) , y(p.y);
+
+    template<typename U> friend class Point; //  모든 Point들은 friend
+};
+// member template의 외부 구현 
+// 클래스 템플릿의 멤버 템플릿의 외부 구현
+template<typename T> template<typename U>
+Point<T>::Point(const Point<U>& p) : x(p.x) , y(p.y) 
+{
+}
+int main()
+{
+    Point<int>  p1(3  , 4); // 위의 생성자를 부름. 일반 생성자
+    Point<int> p2 = p1;     // 복사 생성자 ,  computer가 만들어줌
+
+    Point<double> p3 = p1;  // error : 다른 type에는 복사 생성자가 있을수 없다. 
+}
+```
+
+- [source 4_coercion2  43 page ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/4_coercion2.cpp)
+
+
+---------
+
+<a name="using"></a>
+
+## 6.5\. using
+-  c++14부터 아래 코드를 제공합니다. 
+
+<a name="is_poiner_vremove_pointer_t"></a>
+
+### 6.5.1\. is_poiner_v remove_pointer_t 
+- using 문법
+```cpp
+template<typename T> using remove_pointer_t =  typename std::remove_pointer<T>::type;
+```
+
+- variable template 이라는 문법 
+```cpp
+template<typename T> bool is_pointer_v = std::is_pointer<T>::value;
+```
+
+- example
+```cpp
+template<typename T>
+void foo(T a)
+{
+    // bool b = std::is_pointer<T>::value;
+    bool b = is_pointer_v<T>::value;
+
+    // typename std::remove_pointer<T>::type t;
+    remove_pointer_t<T> t;
+}
+int main()
+{
+    int n;
+    foo(&n);
+}
+```
+
+- [source 5_using ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/5_using.cpp)
+
+
+---------
+
+<a name="sfinaeenable_if_t"></a>
+
+### 6.5.2\. SFINAE ( enable_if_t )
+- 원본 
+```cpp
+template<typename T>
+typename std::enable_if<  std::is_pointer<T>::value , int > :: type
+foo(T a )
+{
+}
+```
+
+- 위코드를 _t  _v 버젼을 사용해서 변경해 보세요.
+1. 함수 반환 타입을 이용한 SNINAE : _t
+```cpp
+template<typename T>
+std::enable_if_t<  std::is_pointer_v<T>, int >
+foo(T a )
+{
+    return 0;
+}
+```
+
+1. 함수 인자를 사용한 SFINAE - value : _v
+```cpp
+template<typename T>
+int 
+goo(T a , std::enable_if_t<  std::is_pointer_v<T>, int > = 0)
+{
+    return 0;
+}
+```
+
+1. template 인자를 사용한 SFINAE
+    - template의 인자로 int 도 받을수 있다.
+```cpp
+template<typename T, 
+    std::enable_if_t<  std::is_pointer_v<T>, int > = 0
+        >
+int 
+hoo(T a)
+{
+    return 0;
+}
+```
+
+- [source 5_using2 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/5_using2.cpp)
+
+
+---------
+
+<a name="bind"></a>
+
+## 6.6\. bind
+
+<a name="bind:n항의함수인자를고정해서m<n항의함수를만드는도구"></a>
+
+### 6.6.1\. bind : N항의 함수 인자를 고정해서 M(<N)항의 함수를 만드는 도구
+```cpp
+#include <functional>
+using namespace std::placeholders;
+
+void foo(int a, int b, int c, int d)
+{
+    printf("%d %d %d %d\n",a,b,c,d);
+}
+
+int main()
+{
+    foo(1,2,3,4);
+    // bind : N항의 함수 인자를 고정해서 M(<N)항의 함수를 만드는 도구
+    std::bind(&foo, 10 , _1 , 3, _2)(5,7); // 10,5,30,7
+    std::bind(&foo, 10 , 5 , 3, 7)(); // 10,5,30,7
+    std::bind(&foo, _3 , 7 , _1, _2)(5,3,2); //  2,7,5,3
+}
+```
+
+- [source 6_bind ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/6_bind.cpp)
+
+
+---------
+
+<a name="인자의수를변경가능"></a>
+
+### 6.6.2\. 인자의 수를 변경 가능
+```cpp
+#include <functional>
+using namespace std::placeholders;
+
+void foo(int a, int b, int c, int d)
+{
+    printf("%d %d %d %d\n",a,b,c,d);
+}
+
+int main()
+{
+    void(*f1)(int); // 인자가 한개인 함수 주소만 담을수 있다.
+
+    std::function<void(int)> f;
+    f = std::bind(&foo, _1 , 0,0,0);;
+    f(10);  // 10 ,0,0,0
+}
+```
+
+- [source 6_bind2 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/6_bind2.cpp)
+
+
+---------
+
+<a name="bind는인자를넘길때기본이copy"></a>
+
+### 6.6.3\. bind는 인자를 넘길때 기본이 copy
+- block등을 빠져나갈대 소멸되어 dangling pointer를 만들수 있기 때문
+- 꼭 필요한 경우 std::ref 이용
+```cpp
+        f = std::bind(&foo, _1, n); // n이 아니라 n의 값을 고정(보관)
+        f = std::bind(&foo, _1, std::ref(n)); // n이 아니라 n의 값을 고정(보관)
+```
+
+- [source 6_bind3 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/6_bind3.cpp)
+
+
+---------
+
+<a name="example:button"></a>
+
+### 6.6.4\. example : Button
+```cpp
+class Button
+{
+    std::function<void()> handler;  // 선언은 인자 없게 했지만, bind 만 있으면 인자 늘릴수 있다. 
+    void Click() { handler(); }
+};
+void goo() { std::cout << "goo" << std::endl; }
+void hoo(int id) { std::cout << "hoo : " << id << std::endl; }
+int main()
+{
+    Button b1,b2,b3;
+    b1.handler = []() { std::cout << "Dialog Close" << std::endl; };
+    b2.handler = &goo;
+    b3.handler = std::bind(&hoo,2);
+    b1.Click(); b2.Click(); b3.Click();
+}
+```
+
+- [source 6_bind4 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/6_bind4.cpp)
+
+
+---------
+
+<a name="referencewrapper"></a>
+
+## 6.7\. reference wrapper
+- C++ reference(참조) : 개념적으로 const 이다.  참조가 이동하지 않고 값을 복사하는 것이다. 
+- [source 7_reference_wrapper ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/7_reference_wrapper.cpp)
+
+<a name="reference_wrapper:이동가능한참조-변환연산자:operatort&"></a>
+
+### 6.7.1\. reference_wrapper: 이동가능한 참조 - 변환연산자 : operator T&()
+- 변환연산자 : operator T&() 정의 필요
+- 참조끼리 대입시 참조가 이동
+```cpp
+template<typename T> class reference_wrapper
+{
+    T* ptr;
+public:
+    reference_wrapper(T& p){ ptr = &p; }
+    
+    // 변환연산자: 반환 타입을 표기하지 않는 특징이 있다.
+    // 객체가 다른 타입으로 변환되기 위해 필요
+    operator T&() { return *ptr; }
+    T& get() const{ return *ptr; }
+};
+
+main(){
+    int n1 = 10;
+    int n2 = 20;
+
+    std::reference_wrapper<int> r1 = n1;
+    std::reference_wrapper<int> r2 = n2;
+
+
+    r2 = r1; // 이 한줄의 의미를 잘 생각해보세요.
+    r2.get() = 30;
+
+    std::cout << n1 << std::endl; //30
+    std::cout << n2 << std::endl; //20
+    std::cout << r1 << std::endl; //30
+    std::cout << r2 << std::endl; //30
+}
+```
+
+- [source 7_reference_wrapper2 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/7_reference_wrapper2.cpp)
+
+
+---------
+
+<a name="reference_wrapper의helper함수:valuleforwarding"></a>
+
+### 6.7.2\. reference_wrapper의 helper 함수 : valuleForwarding
+-  object generator
+    - reference_wrapper를 만들어준느 헬퍼함수
+    - 클래스 템플릿을 직접 만들게 하지 말고 함수 템플릿으로 만들게 하자.
+```cpp
+// 아래 함수가 bind처럼 인자를 값으로 받고 있다.  
+template<typename F, typename T>
+void valueForwarding(F f, T arg)
+{
+    f(arg);
+}
+
+template <typename T>
+reference_wrapper<T> ref(T* obj)
+{
+    return reference_wrapper<T>(obj);
+}
+
+int main()
+{
+    int x = 0;
+    valueForwarding(&foo,reference_wrapper<int>(x));    // ok : reference_wrapper의 임시객체
+    valueForwarding(&foo,ref(x));    // ok : reference_wrapper의 helper사용
+    std::cout << x << std::endl;    // 100
+}
+```
+
+- [source 7_reference_wrapper3 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/7_reference_wrapper3.cpp)
+
+
+---------
+
+<a name="policyclone"></a>
+
+## 6.8\. Policy Clone
+- template인자로 동기화 정책을 받자
+    - 단위 전략 design (policy based design)
+- webkit 소스 "source/wrf/wrf/nolock.h" 
+
+<a name="###template인자로policy결정"></a>
+
+6.9\. ### template 인자로 policy 결정
+-  
+```cpp
+template<typename T , typename ThreadModel = nolock> class List
+{
+    ThreadModel tm;
+public:
+    void push_front(const T& a)
+    {
+        tm.lock();
+        //....
+        tm.unlock();
+    }
+};
+
+List<int,nolock> s;    //  전역 변수.  멀티쓰레드에 안전하지 않다. 
+```
+
+- [source 8_policy 183 page ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/8_policy.cpp)
+
+
+---------
+
+<a name="allocatorcppreference.com"></a>
+
+### 6.9.1\. allocator  (cppreference.com)
+- cppreference.com allocator 찾아봐라
+    - Example을 가져와서 destroy만 추가시켰다.
+    - traits에서 member를 찾아서 destroy가 있으면 그것을 찾아 호출 한다. 
+```cpp
+struct Point
+{
+    int x,y;
+    Point(int a=0,int b=0){ std::cout << __PRETTY_FUNCTION__ << std::endl; }
+    ~Point(){ std::cout << __PRETTY_FUNCTION__ << std::endl; }
+};
+
+// copy example in cpprefrence.com
+template <class T>
+struct Mallocator {
+  typedef T value_type;
+  Mallocator() = default;
+  template <class U> constexpr Mallocator(const Mallocator<U>&) noexcept {}
+  [[nodiscard]] T* allocate(std::size_t n) {
+    if(n > std::size_t(-1) / sizeof(T)) throw std::bad_alloc();
+    if(auto p = static_cast<T*>(std::malloc(n*sizeof(T)))) return p;
+    throw std::bad_alloc();
+  }
+  void deallocate(T* p, std::size_t) noexcept { std::free(p); }
+
+  void destroy(T* p)
+  {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+	p->~T();
+  };
+};
+template <class T, class U>
+bool operator==(const Mallocator<T>&, const Mallocator<U>&) { return true; }
+template <class T, class U>
+bool operator!=(const Mallocator<T>&, const Mallocator<U>&) { return false; }
+
+int main()
+{
+    Mallocator<Point> ax;
+    Point* p1 = ax.allocate(2);     // 메모리만 할당함 
+
+	std::allocator_traits<Mallocator<Point>>::construct(ax, &p1[0],1,2);
+	std::allocator_traits<Mallocator<Point>>::destroy(ax,&p1[0]);
+		// traits는 안에 Mallocator에 destroy가 있는지를 찾아준다. 
+
+    ax.deallocate(p1,2);
+}
+```
+
+- [source 8_policy2 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/8_policy2.cpp)
+
+
+---------
+
+<a name="allocatorrebind"></a>
+
+### 6.9.2\. allocator rebind
+- why? : List에서는 <int> 이지만 실제로는 int를 포함하는 Node를 할당해야 한다. 그런데, Node는 외부에서는 모르는 것이므로 Mallocator<Node> 라고 template 인자로 넣어줄수 없다. 
+- rebind를 이용하여 data가 가 아닌 Node size로 alloc을 해야함.
+    - Mallocator<int> -> Mallocator<Node>
+```cpp
+template <class T>
+struct Mallocator {
+    
+    ...
+
+  // 아래 코드가 Policy Clone이름을 가진 기법이다.
+  template<typename U>
+      struct rebind
+      {
+          typedef Mallocator<U> other;
+      };
+};
+
+// List 
+template<typename T, typename Ax = std::allocator<T>>
+class List
+{
+    struct Node
+    {
+        T data;
+        Node *next,*prev;
+    };
+    typename Ax::template rebind<Node>::other ax;    // Mallocator<Node> 
+        // 앞의 typename은 Ax안의 other가 type (값이 아님)
+        // rebind<  <를 해석하기 위해서 그 앞에 template
+public:
+    void push_front(const T& a)
+    {
+        // 메모리 할당이 필요합니다.
+    }
+};
+
+int main()
+{
+    List<int,Mallocator<int>> s;
+    s.push_front(10);
+
+}
+```
+
+- [source 8_policy5  184 page ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/8_policy5.cpp)
+
+
+---------
+
+<a name="policycloneforallocatorex.list<int>withnode"></a>
+
+### 6.9.3\. policy Clone for allocator (ex. List<int> with Node)
+```cpp
+template<typename T> struct MyAlloc {};
+template<typename T,        // type
+        int N,              // 정수
+        template<typename> class AT>    // template (틀)
+class Test
+{
+    AT<T> ax;
+};
+
+Test<int,10, MyAlloc> t;
+
+template<typename T, template<typename> class AT> class List    // AT는 template자리
+{
+    struct Node {};
+    AT<Node> ax;    // MyAlloc<Node> ax;
+};
+
+int main()
+{
+    List<int,MyAlloc> s;
+
+}
+```
+
+- [source 8_policy6 ](https://github.com/cheoljoo/educated-advanced-cpp/blob/master/Day5/8_policy6.cpp)
+
+
+---------
 
