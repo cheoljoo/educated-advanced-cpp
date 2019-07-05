@@ -325,4 +325,58 @@ tuple_size:
 3_make2:
 	g++ -std=c++17 3_make2.cpp -o a
 	./a
-all: 3_make
+4_coercion:
+	# need compile check
+	g++ -std=c++11 4_coercion.cpp -o a
+	./a
+4_coercion2:
+	# need compile check
+	g++ -std=c++11 4_coercion2.cpp -o a
+	./a
+4_coercion3:
+	# need compile check
+	g++ -std=c++11 4_coercion3.cpp -o a
+	./a
+5_using:
+	# need compile check
+	g++ -std=c++11 5_using.cpp -o a
+	./a
+5_using2:
+	# need compile check
+	g++ -std=c++11 5_using2.cpp -o a
+	./a
+6_bind:
+	g++ -std=c++11 6_bind.cpp -o a
+	./a
+6_bind2:
+	g++ -std=c++11 6_bind2.cpp -o a
+	./a
+6_bind3:
+	g++ -std=c++11 6_bind3.cpp -o a
+	./a
+6_bind4:
+	g++ -std=c++11 6_bind4.cpp -o a
+	./a
+7_reference_wrapper:
+	g++ -std=c++11 7_reference_wrapper.cpp -o a
+	./a
+7_reference_wrapper2:
+	g++ -std=c++11 7_reference_wrapper2.cpp -o a
+	./a
+7_reference_wrapper3:
+	# need compile check
+	g++ -std=c++11 7_reference_wrapper3.cpp -o a
+	./a
+7_reference_wrapper4:
+	g++ -std=c++11 7_reference_wrapper4.cpp -o a
+	./a
+8_policy:
+	g++ -std=c++11 8_policy.cpp -o a
+	./a
+8_policy3:
+	g++ -std=c++11 8_policy3.cpp -o a
+	./a
+8_policy4:
+	g++ -std=c++11 8_policy4.cpp -o a
+	./a
+all: 8_policy4
