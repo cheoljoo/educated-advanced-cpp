@@ -379,4 +379,13 @@ tuple_size:
 8_policy4:
 	g++ -std=c++11 8_policy4.cpp -o a
 	./a
-all: 8_policy4
+reference:
+	g++ -std=c++11 reference.cpp -o a
+	./a
+8_policy5:
+	g++ -std=c++11 8_policy5.cpp -o a
+	./a
+8_policy6:
+	g++ -std=c++11 8_policy6.cpp -o a
+	./a
+all: 8_policy6
