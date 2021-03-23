@@ -1,0 +1,25 @@
+﻿40분에 시작합니다.
+강석민 강사 
+smkang @ codenuri.co.kr
+
+cafe.naver.com/cppmaster 에 "LGE-고급C++" 게시판에서 "1일차 사전소스" 받아 주세요
+
+isocpp.org
+
+1. C++ 표준을 컴파일 할수 있는 어떤 컴파일러를 사용하셔도 됩니다.
+
+2. 되도록 이면 최신 버전을 사용해 주세요 - C++17, C++20
+3. 강사는 visual studio 2017 express 를 사용합니다.
+visual studio 2017을 설치하실분은 "vs2017설치.pdf" 를 참고 하세요
+
+// 1일차 : 약간 쉬운..
+
+// 9:10분 부터 강의 시작 합니다.  "1일차 소스 받아두세요"
+
+// visual studio 사용하시는 분들은 
+// 1. day1.sln 파일을 열고
+// 2. "Debug", "x86"
+// 3. 프로젝트 메뉴 - 속성 메뉴 - "Windows SDK 버전" 설정해야 합니다.
+
+// g++(mingw) 필요 하신 분은 
+// google 에서 "Brecht Sanders mingw" 검색하면 11.0 받으실수 있습니다.

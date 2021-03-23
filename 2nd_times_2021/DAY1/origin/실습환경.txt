@@ -1,0 +1,13 @@
+﻿1. C++ 표준을 컴파일 할수 있는 어떤 컴파일러를 사용하셔도 됩니다.
+2. 되도록 이면 최신 버전을 사용해 주세요
+3. 강사는 visual studio 2017 express 를 사용합니다.
+
+visual studio 2017을 설치하실분은 "vs2017설치.pdf" 를 참고 하세요
+
+
+// visual studio 사용하시는 분들은
+1. day1.sln  file을 열고 
+2. "Debug" , "x86"
+3. 프로젝트 메뉴 - 속성 메뉴 - "Windows SDK 버젼" 설절해야 합니다.
+
+
